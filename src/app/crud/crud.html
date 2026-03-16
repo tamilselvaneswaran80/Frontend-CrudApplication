@@ -1,0 +1,19 @@
+
+<h2>User CRUD</h2>
+
+<input [(ngModel)]="name" placeholder="Enter Name">
+
+<button (click)="addUser()">Add</button>
+
+<ul>
+  <li *ngFor="let user of users; let i=index">
+    {{user}}
+
+    <button (click)="editUser(i)">Edit</button>
+
+    <button (click)="deleteUser(i)">Delete</button>
+  </li>
+</ul>
+
+
+<button routerLink="/dashboard">Back to Dashboard</button>

@@ -1,0 +1,38 @@
+<div class="container-fluid">
+<div class="row">
+
+<!-- Sidebar -->
+<div class="col-2 bg-dark text-white vh-100">
+
+<h4 class="p-3">Dashboard</h4>
+
+<ul class="nav flex-column">
+
+<li class="nav-item">
+  <button class="btn text-white w-100 text-start" routerLink="/dashboard">
+    🏠 Home
+  </button>
+</li>
+<br>
+<li class="nav-item">
+  <button 
+    class="btn text-white w-100 text-start"  routerLink="/Users" (click)="openUsers()"> 👤 User CRUD
+  </button>
+</li>
+<br>
+<li class="nav-item">
+  <button class="btn btn-danger nav-link" (click)="logout()">
+    Logout
+  </button>
+</li>
+
+</ul>
+
+</div>
+
+<!-- Page Content -->
+<div class="col-10 p-4">
+</div>
+
+</div>
+</div>
