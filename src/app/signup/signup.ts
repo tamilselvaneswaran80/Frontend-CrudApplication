@@ -23,6 +23,7 @@ export class Signup {
     email: '',
     password: '',
     phoneNumber: '',
+    role: '',
   };
   signup() {
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

@@ -4,12 +4,27 @@ import { Signup } from './signup/signup';
 import { Dashboard } from './dashboard/dashboard';
 import { User } from './user/user';
 import { ResetPassword } from './reset-password/reset-password';
+import { AuthGuard } from './auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: Login },
   { path: 'signup', component: Signup },
-  { path: 'dashboard', component: Dashboard },
-  { path: 'Users', component: User },
+  //{ path: 'dashboard', component: Dashboard },
+  // { path: 'Users', component: User },
   { path: 'reset-password', component: ResetPassword },
+  {
+    path: 'dashboard',
+    loadComponent: () => import('./dashboard/dashboard').then((m) => m.Dashboard),
+    canActivate: [AuthGuard],
+    data: { permission: ['ADMIN', 'STUDENT'] },
+  },
+  {
+    path: 'Users',
+
+    loadComponent: () => import('./user/user').then((m) => m.User),
+    canActivate: [AuthGuard],
+    data: { permission: ['ADMIN', 'TEACHER'] },
+  },
+  { path: '**', redirectTo: 'login' }, // 🔥 IMPORTANT
 ];

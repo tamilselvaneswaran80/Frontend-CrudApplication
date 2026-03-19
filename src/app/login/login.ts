@@ -5,7 +5,8 @@ import { UserService } from '../user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
+import { AuthService } from '../auth.service';
+import { NgxPermissionsService } from 'ngx-permissions';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -22,16 +23,16 @@ export class Login {
   constructor(
     private api: UserService,
     private router: Router,
+    private permission: NgxPermissionsService,
+    private auth: AuthService,
   ) {}
 
   login() {
-    // 🔹 Check empty fields
     if (!this.loginData.email || !this.loginData.password) {
       alert('Please enter Email and Password');
       return;
     }
 
-    // 🔹 Email format validation
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailPattern.test(this.loginData.email)) {
@@ -39,21 +40,27 @@ export class Login {
       return;
     }
 
-    // 🔹 Call API
     this.api.login(this.loginData).subscribe({
       next: (res: any) => {
         console.log('Login Response:', res);
 
-        // 🔹 Check API response
-        if (res) {
+        if (res && res.token) {
+          const role = res.user.role?.toUpperCase(); // 🔥 normalize
+
           alert('Login Success');
 
-          // Example: save token if backend sends it
-          if (res.token) {
-            localStorage.setItem('token', res.token);
-          }
+          this.auth.setSession(res.token, role);
+          this.permission.loadPermissions([role]);
 
-          this.router.navigate(['/dashboard']);
+          // ✅ Allowed roles
+          const allowedRoles = ['ADMIN', 'STUDENT'];
+
+          if (allowedRoles.includes(role)) {
+            this.router.navigate(['/dashboard']); // ✅ allowed
+          } else {
+            alert('Access Denied ❌');
+            this.router.navigate(['/login']); // ❌ not allowed
+          }
         } else {
           alert('Invalid Email or Password');
         }
@@ -61,7 +68,6 @@ export class Login {
 
       error: (err: any) => {
         console.error('Login Error:', err);
-
         alert('Invalid Email or Password');
       },
     });

@@ -4,117 +4,188 @@
 
 <h2 class="mb-4">Student CRUD</h2>
 
-<!-- Student ID -->
-<div class="form-group row">
-<label class="col-sm-2 col-form-label">Student ID</label>
-<div class="col-sm-6">
-<input type="text"
-[(ngModel)]="studentlist().studentId"
-class="form-control">
-</div>
-</div>
+<!-- 🔹 FORM (Admin only) -->
+<div *ngxPermissionsOnly="['Admin']">
 
-<!-- First Name -->
-<div class="form-group row">
-<label class="col-sm-2 col-form-label">First Name</label>
-<div class="col-sm-6">
-<input type="text"
-[(ngModel)]="studentlist().firstname"
-class="form-control">
-</div>
-</div>
+  <!-- Student ID -->
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Student ID</label>
+    <div class="col-sm-6">
+      <input type="text"
+             name="studentId"
+             required
+             #studentId="ngModel"
+             [(ngModel)]="studentlist().studentId"
+             class="form-control">
 
-<!-- Last Name -->
-<div class="form-group row">
-<label class="col-sm-2 col-form-label">Last Name</label>
-<div class="col-sm-6">
-<input type="text"
-[(ngModel)]="studentlist().lastname"
-class="form-control">
-</div>
-</div>
+      <small class="text-danger" *ngIf="studentId.invalid && studentId.touched">
+        Student ID is required
+      </small>
+    </div>
+  </div>
 
-<!-- Age -->
-<div class="form-group row">
-<label class="col-sm-2 col-form-label">Age</label>
-<div class="col-sm-6">
-<input type="number"
-[(ngModel)]="studentlist().age"
-class="form-control">
-</div>
-</div>
+  <!-- First Name -->
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">First Name</label>
+    <div class="col-sm-6">
+      <input type="text"
+             name="firstname"
+             required
+             minlength="3"
+             #firstname="ngModel"
+             [(ngModel)]="studentlist().firstname"
+             class="form-control">
 
-<!-- Course -->
-<div class="form-group row">
-<label class="col-sm-2 col-form-label">Course</label>
-<div class="col-sm-6">
-<input type="text"
-[(ngModel)]="studentlist().course"
-class="form-control">
-</div>
-</div>
+      <small class="text-danger" *ngIf="firstname.errors?.['required'] && firstname.touched">
+        First name is required
+      </small>
+      
+    </div>
+  </div>
 
-<!-- Phone Number -->
-<div class="form-group row">
-<label class="col-sm-2 col-form-label">Phone Number</label>
-<div class="col-sm-6">
-<input type="text"
-[(ngModel)]="studentlist().phoneNumber"
-class="form-control">
-</div>
-</div>
+  <!-- Last Name -->
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Last Name</label>
+    <div class="col-sm-6">
+      <input type="text"
+             name="lastname"
+             required
+             #lastname="ngModel"
+             [(ngModel)]="studentlist().lastname"
+             class="form-control">
 
-<!-- Button -->
-<div class="form-group row">
-<div class="col-sm-2"></div>
-<div class="col-sm-6">
-<button class="btn btn-primary" (click)="saveStudent()">
-{{ editIndex === null ? 'Add Student' : 'Update Student' }}
-</button>
-</div>
+      <small class="text-danger" *ngIf="lastname.invalid && lastname.touched">
+        Last name is required
+      </small>
+    </div>
+  </div>
+
+  <!-- Age -->
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Age</label>
+    <div class="col-sm-6">
+      <input type="number"
+             name="age"
+             required
+             min="1"
+             max="100"
+             #age="ngModel"
+             [(ngModel)]="studentlist().age"
+             class="form-control">
+
+      <small class="text-danger" *ngIf="age.errors?.['required'] && age.touched">
+        Age is required
+      </small>
+      <small class="text-danger" *ngIf="age.errors?.['min'] || age.errors?.['max']">
+        Age must be between 1 and 100
+      </small>
+    </div>
+  </div>
+
+  <!-- Course -->
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Course</label>
+    <div class="col-sm-6">
+      <input type="text"
+             name="course"
+             required
+             #course="ngModel"
+             [(ngModel)]="studentlist().course"
+             class="form-control">
+
+      <small class="text-danger" *ngIf="course.invalid && course.touched">
+        Course is required
+      </small>
+    </div>
+  </div>
+
+  <!-- Phone -->
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Phone Number</label>
+    <div class="col-sm-6">
+      <input type="text"
+             name="phoneNumber"
+             required
+             pattern="^[0-9]{10}$"
+             #phone="ngModel"
+             [(ngModel)]="studentlist().phoneNumber"
+             class="form-control">
+
+      <small class="text-danger" *ngIf="phone.errors?.['required'] && phone.touched">
+        Phone number is required
+      </small>
+      <small class="text-danger" *ngIf="phone.errors?.['pattern']">
+        Enter valid 10 digit number
+      </small>
+    </div>
+  </div>
+
+  <!-- Button -->
+  <div class="form-group row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-6">
+      <button class="btn btn-primary" (click)="saveStudent()">
+        {{ editIndex === null ? 'Add Student' : 'Update Student' }}
+      </button>
+    </div>
+  </div>
+
 </div>
 
 <hr>
 
+<!-- 🔹 TABLE (ALL USERS CAN SEE) -->
 <table class="table table-bordered mt-3">
 
-<thead class="thead-dark">
-<tr>
-<th>ID</th>
-<th>FirstName</th>
-<th>LastName</th>
-<th>Age</th>
-<th>Course</th>
-<th>PhoneNumber</th>
-<th>Action</th>
-</tr>
-</thead>
+  <thead class="thead-dark">
+    <tr>
+      <th>ID</th>
+      <th>FirstName</th>
+      <th>LastName</th>
+      <th>Age</th>
+      <th>Course</th>
+      <th>PhoneNumber</th>
+      <th>Action</th>
+    </tr>
+  </thead>
 
-<tbody>
+  <tbody>
 
-<tr *ngFor="let s of students; let i=index">
-<td>{{i+1}}</td>
-<td>{{s.firstname}}</td>
-<td>{{s.lastname}}</td>
-<td>{{s.age}}</td>
-<td>{{s.course}}</td>
-<td>{{s.phoneNumber}}</td>
+    <tr *ngFor="let s of students()">
 
-<td>
-<button class="btn btn-warning btn-sm mr-2"
-(click)="editStudent(i)">
-Edit
-</button>
+      <td>{{s.studentId}}</td>
+      <td>{{s.firstname}}</td>
+      <td>{{s.lastname}}</td>
+      <td>{{s.age}}</td>
+      <td>{{s.course}}</td>
+      <td>{{s.phoneNumber}}</td>
 
-<button class="btn btn-danger btn-sm"
-(click)="deleteStudent(i)">
-Delete
-</button>
-</td>
+      <td>
 
-</tr>
+        <!-- View (All users) -->
+        <button class="btn btn-primary btn-sm mr-2">
+          View
+        </button>
 
-</tbody>
+        <!-- 🔐 Admin only -->
+        <button *ngxPermissionsOnly="['Admin']"
+                class="btn btn-warning btn-sm mr-2"
+                (click)="editStudent(s)">
+          Edit
+        </button>
+
+        <!-- 🔐 Admin only -->
+        <button *ngxPermissionsOnly="['Admin']"
+                class="btn btn-danger btn-sm"
+                (click)="deleteStudent(s.studentId); $event.stopPropagation()">
+          Delete
+        </button>
+
+      </td>
+
+    </tr>
+
+  </tbody>
 
 </table>
 
