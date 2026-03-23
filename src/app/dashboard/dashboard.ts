@@ -19,6 +19,9 @@ export class Dashboard {
     this.router.navigate(['/Users']);
   }
 
+  openEmployee() {
+    this.router.navigate(['/employee']);
+  }
   logout() {
     alert('Logged out successfully ✅');
     this.router.navigate(['/']);

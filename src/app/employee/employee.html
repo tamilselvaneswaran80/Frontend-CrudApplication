@@ -1,0 +1,102 @@
+<div class="container mt-5">
+
+  <div class="card shadow-lg p-4">
+    <h2 class="text-center mb-4">Employee Management</h2>
+
+    <!-- ✅ FORM -->
+    <form #empForm="ngForm" (ngSubmit)="add()">
+
+      <div class="row g-3">
+
+        <div class="col-md-3">
+          <label class="form-label fw-bold">Name</label>
+          <input
+            [(ngModel)]="newEmp.name"
+            name="name"
+            required
+            class="form-control"
+            placeholder="Enter name">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-bold">Role</label>
+          <input
+            [(ngModel)]="newEmp.role"
+            name="role"
+            required
+            class="form-control"
+            placeholder="Enter role">
+        </div>
+
+        <div class="col-md-3">
+          <label class="form-label fw-bold">Department</label>
+          <input
+            [(ngModel)]="newEmp.department"
+            name="department"
+            required
+            class="form-control"
+            placeholder="Enter department">
+        </div>
+
+        <div class="col-md-2">
+          <label class="form-label fw-bold">Salary</label>
+          <input
+            [(ngModel)]="newEmp.salary"
+            name="salary"
+            type="number"
+            required
+            class="form-control"
+            placeholder="Enter salary">
+        </div>
+
+        <div class="col-md-1 d-grid align-items-end">
+          <button
+            class="btn btn-primary mt-4"
+            type="submit"
+            >
+            Add
+          </button>
+        </div>
+
+      </div>
+
+      <hr class="my-4">
+
+      <!-- TABLE -->
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center align-middle">
+
+          <thead class="table-dark">
+            <tr>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Department</th>
+              <th>Salary</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr *ngFor="let emp of employees">
+              <td>{{emp.name}}</td>
+              <td>{{emp.role}}</td>
+              <td>{{emp.department}}</td>
+              <td>₹ {{emp.salary}}</td>
+              <td>
+                <button
+                  class="btn btn-danger btn-sm"
+                  type="button"
+                  (click)="delete(emp.id)">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+
+        </table>
+      </div>
+
+    </form>
+
+  </div>
+</div>

@@ -5,22 +5,15 @@
 <h2 class="mb-4">Student CRUD</h2>
 
 <!-- 🔹 FORM (Admin only) -->
-<div *ngxPermissionsOnly="['Admin']">
+<div *ngxPermissionsOnly="['ADMIN']">
 
   <!-- Student ID -->
   <div class="form-group row">
     <label class="col-sm-2 col-form-label">Student ID</label>
     <div class="col-sm-6">
       <input type="text"
-             name="studentId"
-             required
-             #studentId="ngModel"
-             [(ngModel)]="studentlist().studentId"
-             class="form-control">
-
-      <small class="text-danger" *ngIf="studentId.invalid && studentId.touched">
-        Student ID is required
-      </small>
+      [(ngModel)]="studentlist().studentId"
+      class="form-control">
     </div>
   </div>
 
@@ -29,17 +22,8 @@
     <label class="col-sm-2 col-form-label">First Name</label>
     <div class="col-sm-6">
       <input type="text"
-             name="firstname"
-             required
-             minlength="3"
-             #firstname="ngModel"
-             [(ngModel)]="studentlist().firstname"
-             class="form-control">
-
-      <small class="text-danger" *ngIf="firstname.errors?.['required'] && firstname.touched">
-        First name is required
-      </small>
-      
+      [(ngModel)]="studentlist().firstname"
+      class="form-control">
     </div>
   </div>
 
@@ -48,15 +32,8 @@
     <label class="col-sm-2 col-form-label">Last Name</label>
     <div class="col-sm-6">
       <input type="text"
-             name="lastname"
-             required
-             #lastname="ngModel"
-             [(ngModel)]="studentlist().lastname"
-             class="form-control">
-
-      <small class="text-danger" *ngIf="lastname.invalid && lastname.touched">
-        Last name is required
-      </small>
+      [(ngModel)]="studentlist().lastname"
+      class="form-control">
     </div>
   </div>
 
@@ -65,20 +42,8 @@
     <label class="col-sm-2 col-form-label">Age</label>
     <div class="col-sm-6">
       <input type="number"
-             name="age"
-             required
-             min="1"
-             max="100"
-             #age="ngModel"
-             [(ngModel)]="studentlist().age"
-             class="form-control">
-
-      <small class="text-danger" *ngIf="age.errors?.['required'] && age.touched">
-        Age is required
-      </small>
-      <small class="text-danger" *ngIf="age.errors?.['min'] || age.errors?.['max']">
-        Age must be between 1 and 100
-      </small>
+      [(ngModel)]="studentlist().age"
+      class="form-control">
     </div>
   </div>
 
@@ -87,15 +52,8 @@
     <label class="col-sm-2 col-form-label">Course</label>
     <div class="col-sm-6">
       <input type="text"
-             name="course"
-             required
-             #course="ngModel"
-             [(ngModel)]="studentlist().course"
-             class="form-control">
-
-      <small class="text-danger" *ngIf="course.invalid && course.touched">
-        Course is required
-      </small>
+      [(ngModel)]="studentlist().course"
+      class="form-control">
     </div>
   </div>
 
@@ -104,19 +62,8 @@
     <label class="col-sm-2 col-form-label">Phone Number</label>
     <div class="col-sm-6">
       <input type="text"
-             name="phoneNumber"
-             required
-             pattern="^[0-9]{10}$"
-             #phone="ngModel"
-             [(ngModel)]="studentlist().phoneNumber"
-             class="form-control">
-
-      <small class="text-danger" *ngIf="phone.errors?.['required'] && phone.touched">
-        Phone number is required
-      </small>
-      <small class="text-danger" *ngIf="phone.errors?.['pattern']">
-        Enter valid 10 digit number
-      </small>
+      [(ngModel)]="studentlist().phoneNumber"
+      class="form-control">
     </div>
   </div>
 
@@ -168,14 +115,14 @@
         </button>
 
         <!-- 🔐 Admin only -->
-        <button *ngxPermissionsOnly="['Admin']"
-                class="btn btn-warning btn-sm mr-2"
+        <button *ngxPermissionsOnly="['ADMIN']"
+                class="btn btn-warning btn-sm me-2"
                 (click)="editStudent(s)">
           Edit
         </button>
 
         <!-- 🔐 Admin only -->
-        <button *ngxPermissionsOnly="['Admin']"
+        <button *ngxPermissionsOnly="['ADMIN']"
                 class="btn btn-danger btn-sm"
                 (click)="deleteStudent(s.studentId); $event.stopPropagation()">
           Delete

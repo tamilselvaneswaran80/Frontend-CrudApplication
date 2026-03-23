@@ -56,7 +56,9 @@ export class Login {
           const allowedRoles = ['ADMIN', 'STUDENT'];
 
           if (allowedRoles.includes(role)) {
-            this.router.navigate(['/dashboard']); // ✅ allowed
+            this.router.navigate(['/dashboard']);
+
+            // ✅ allowed
           } else {
             alert('Access Denied ❌');
             this.router.navigate(['/login']); // ❌ not allowed
@@ -74,5 +76,9 @@ export class Login {
   }
   goToSignup() {
     this.router.navigate(['/signup']);
+  }
+
+  goToSignupCrud() {
+    this.router.navigate(['/signup-crud']);
   }
 }

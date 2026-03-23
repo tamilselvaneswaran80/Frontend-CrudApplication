@@ -5,7 +5,8 @@ import { Dashboard } from './dashboard/dashboard';
 import { User } from './user/user';
 import { ResetPassword } from './reset-password/reset-password';
 import { AuthGuard } from './auth.guard';
-
+import { SignupCrud } from './signup-crud/signup-crud';
+import { Employee } from './employee/employee';
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: Login },
@@ -13,6 +14,8 @@ export const routes: Routes = [
   //{ path: 'dashboard', component: Dashboard },
   // { path: 'Users', component: User },
   { path: 'reset-password', component: ResetPassword },
+  { path: 'signup-crud', component: SignupCrud },
+  { path: 'employee', component: Employee },
   {
     path: 'dashboard',
     loadComponent: () => import('./dashboard/dashboard').then((m) => m.Dashboard),
@@ -24,7 +27,7 @@ export const routes: Routes = [
 
     loadComponent: () => import('./user/user').then((m) => m.User),
     canActivate: [AuthGuard],
-    data: { permission: ['ADMIN', 'TEACHER'] },
+    data: { permission: ['ADMIN'] },
   },
   { path: '**', redirectTo: 'login' }, // 🔥 IMPORTANT
 ];

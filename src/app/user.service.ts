@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-
+//import { User } from './user/user';
+import { User } from './models/signupcrud.model';
+import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -21,12 +23,19 @@ export class UserService {
     localStorage.clear();
   }
 
-  getUsers() {
-    return this.http.get(this.api);
+  // getUsers() {
+  //   return this.http.get(this.api);
+  // }
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.api}/get`);
   }
 
+  // deleteUser(id: number) {
+  //   return this.http.delete(`${this.api}/delete/${id}`);
+  // }
+
   deleteUser(id: number) {
-    return this.http.delete(`${this.api}/${id}`);
+    return this.http.delete(`${this.api}/delete/${id}`);
   }
   resetPassword(id: number, data: any) {
     return this.http.put(`https://localhost:7215/api/Crud/reset-password/${id}`, data);
