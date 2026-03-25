@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { CommonModule } from '@angular/common';
+//import { User } from '../user/user';
+//import { Employees } from '../employee/employee';
 import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-dashboard',
@@ -15,6 +17,7 @@ export class Dashboard {
     private user: UserService,
     private router: Router,
   ) {}
+
   openUsers() {
     this.router.navigate(['/Users']);
   }
@@ -22,6 +25,11 @@ export class Dashboard {
   openEmployee() {
     this.router.navigate(['/employee']);
   }
+
+  openEmployeeDetails() {
+    this.router.navigate(['/employee-search']);
+  }
+
   logout() {
     alert('Logged out successfully ✅');
     this.router.navigate(['/']);

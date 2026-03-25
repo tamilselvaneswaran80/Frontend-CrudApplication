@@ -5,14 +5,21 @@ import { Student } from '../models/student.model';
 import { RouterModule } from '@angular/router';
 import { StudentService } from '../student.service';
 import { NgxPermissionsModule } from 'ngx-permissions';
+import { Employees } from '../employee/employee';
 @Component({
   selector: 'app-Users',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule, NgxPermissionsModule],
+  imports: [CommonModule, FormsModule, RouterModule, NgxPermissionsModule, Employees],
   templateUrl: './user.html',
+  styleUrl: './user.scss',
 })
 export class User implements OnInit {
   constructor(private studentService: StudentService) {}
+  showUser = signal(true);
+
+  togglePage() {
+    this.showUser.set(!this.showUser());
+  }
 
   studentlist = signal<Student>({
     studentId: 0,
@@ -25,7 +32,7 @@ export class User implements OnInit {
 
   students = signal<Student[]>([]);
   editIndex: number | null = null;
-
+  totalRecords = signal(0);
   // Load students when page opens
   ngOnInit() {
     this.getStudents();
@@ -36,6 +43,7 @@ export class User implements OnInit {
     this.studentService.getStudents().subscribe({
       next: (data) => {
         this.students.set(data); // 🔥 signal update
+        this.totalRecords.set(data.length);
       },
       error: (err) => console.error(err),
     });

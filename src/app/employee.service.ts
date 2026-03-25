@@ -1,25 +1,39 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Employee } from './models/employee.model';
+import { Observable } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class EmployeeService {
-  api = 'https://localhost:7215/api/Employee';
+  private api = 'https://localhost:7215/api/Employee';
 
   constructor(private http: HttpClient) {}
 
-  getAll() {
-    return this.http.get(this.api);
+  getAll(): Observable<Employee[]> {
+    return this.http.get<Employee[]>(this.api);
   }
 
-  create(emp: any) {
-    return this.http.post(this.api, emp);
+  // create(emp: Employee): Observable<Employee> {
+  //   return this.http.post<Employee>(this.api, emp);
+  // }
+
+  getById(id: number): Observable<Employee> {
+    return this.http.get<Employee>(`${this.api}/${id}`);
   }
 
-  update(id: number, emp: any) {
-    return this.http.put(`${this.api}/${id}`, emp);
+  create(emp: Employee): Observable<Employee> {
+    return this.http.post<Employee>(`${this.api}/create`, emp);
   }
+  // update(id: number, emp: Employee): Observable<Employee> {
+  //   return this.http.put<Employee>(`${this.api}/${id}`, emp);
+  // }
 
-  delete(id: number) {
-    return this.http.delete(`${this.api}/${id}`);
+  update(id: number, emp: Employee): Observable<Employee> {
+    return this.http.put<Employee>(`${this.api}/update/${id}`, emp);
+  }
+  delete(id: number): Observable<any> {
+    return this.http.delete(`${this.api}/delete/${id}`);
   }
 }

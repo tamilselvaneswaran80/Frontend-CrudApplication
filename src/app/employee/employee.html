@@ -1,102 +1,114 @@
-<div class="container mt-5">
+<!-- <div *ngIf="showStudent()"> -->
+<div class="container mt-2">
 
-  <div class="card shadow-lg p-4">
-    <h2 class="text-center mb-4">Employee Management</h2>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
-    <!-- ✅ FORM -->
-    <form #empForm="ngForm" (ngSubmit)="add()">
+<h2 class="mb-4">Employee CRUD</h2>
 
-      <div class="row g-3">
-
-        <div class="col-md-3">
-          <label class="form-label fw-bold">Name</label>
-          <input
-            [(ngModel)]="newEmp.name"
-            name="name"
-            required
-            class="form-control"
-            placeholder="Enter name">
-        </div>
-
-        <div class="col-md-3">
-          <label class="form-label fw-bold">Role</label>
-          <input
-            [(ngModel)]="newEmp.role"
-            name="role"
-            required
-            class="form-control"
-            placeholder="Enter role">
-        </div>
-
-        <div class="col-md-3">
-          <label class="form-label fw-bold">Department</label>
-          <input
-            [(ngModel)]="newEmp.department"
-            name="department"
-            required
-            class="form-control"
-            placeholder="Enter department">
-        </div>
-
-        <div class="col-md-2">
-          <label class="form-label fw-bold">Salary</label>
-          <input
-            [(ngModel)]="newEmp.salary"
-            name="salary"
-            type="number"
-            required
-            class="form-control"
-            placeholder="Enter salary">
-        </div>
-
-        <div class="col-md-1 d-grid align-items-end">
-          <button
-            class="btn btn-primary mt-4"
-            type="submit"
-            >
-            Add
-          </button>
-        </div>
-
-      </div>
-
-      <hr class="my-4">
-
-      <!-- TABLE -->
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover text-center align-middle">
-
-          <thead class="table-dark">
-            <tr>
-              <th>Name</th>
-              <th>Role</th>
-              <th>Department</th>
-              <th>Salary</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr *ngFor="let emp of employees">
-              <td>{{emp.name}}</td>
-              <td>{{emp.role}}</td>
-              <td>{{emp.department}}</td>
-              <td>₹ {{emp.salary}}</td>
-              <td>
-                <button
-                  class="btn btn-danger btn-sm"
-                  type="button"
-                  (click)="delete(emp.id)">
-                  Delete
-                </button>
-              </td>
-            </tr>
-          </tbody>
-
-        </table>
-      </div>
-
-    </form>
-
+<!-- 🔹 FORM (Admin only) -->
+<div>
+  <!-- Name -->
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Name</label>
+    <div class="col-sm-6">
+      <input type="text"
+      [(ngModel)]="employeeForm().name"
+      class="form-control">
+    </div>
   </div>
+
+  <!-- Role -->
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Role</label>
+    <div class="col-sm-6">
+      <input type="text"
+      [(ngModel)]="employeeForm().role"
+      class="form-control">
+    </div>
+  </div>
+
+  <!-- Department -->
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Department</label>
+    <div class="col-sm-6">
+      <input type="text"
+      [(ngModel)]="employeeForm().department"
+      class="form-control">
+    </div>
+  </div>
+
+  <!-- Salary -->
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Salary</label>
+    <div class="col-sm-6">
+      <input type="number"
+      [(ngModel)]="employeeForm().salary"
+      class="form-control">
+    </div>
+  </div>
+
+  <!-- Button -->
+  <div class="form-group row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-6">
+      <button class="btn btn-primary" style="border-radius: 15px;background-color: #3b9c9ee4;" (click)="saveEmployee()">
+        {{ editId === null ? 'Add Employee' : 'Update Employee' }}
+      </button>
+    </div>
+  </div>
+
 </div>
+
+<hr>
+<div>
+   <button style="background-color: #70c81e; color: rgb(247, 242, 242); border: none; padding: 8px 15px; border-radius: 15px;">
+  📊 Total Employees Record: {{ totalRecords() }}
+</button>
+</div>
+<!-- 🔹 TABLE (ALL USERS CAN SEE) -->
+<table class="table table-bordered mt-3">
+
+  <thead class="thead-dark">
+    <tr>
+      <th style=" color: rgb(228, 25, 167);">ID</th>
+      <th style=" color: rgb(228, 25, 167);">Name</th>
+      <th style=" color: rgb(228, 25, 167);">Role</th>
+      <th style=" color: rgb(228, 25, 167);">Department</th>
+      <th style=" color: rgb(228, 25, 167);">Salary</th>
+      <th style=" color: rgb(228, 25, 167);">Action</th>
+    </tr>
+  </thead>
+
+  <tbody style="background-color: #70c81e;">
+
+    <tr *ngFor="let emp of employees()" >
+
+      <td >{{emp.id}}</td>
+      <td>{{emp.name}}</td>
+      <td>{{emp.role}}</td>
+      <td>{{emp.department}}</td>
+      <td>{{emp.salary}}</td>
+
+      <td>
+
+        <button  class="btn btn-warning btn-sm me-2"
+                (click)="editEmployee(emp)"  style=" color: rgb(24, 15, 4, 0.723);">
+          Edit
+        </button>
+
+        <button  type="button"
+                class="btn btn-danger btn-sm"
+                (click)="deleteEmployee(emp.id); $event.stopPropagation()" style=" color: rgba(24, 15, 4, 0.723);">
+          Delete
+        </button>
+
+      </td>
+
+    </tr>
+
+  </tbody>
+
+</table>
+
+</div>
+<!-- </div> -->

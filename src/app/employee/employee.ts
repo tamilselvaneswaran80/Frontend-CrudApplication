@@ -1,111 +1,123 @@
-// import { Component } from '@angular/core';
-
-// @Component({
-//   selector: 'app-employee',
-//   imports: [],
-//   templateUrl: './employee.html',
-//   styleUrl: './employee.css',
-// })
-// export class Employee {}
-
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-//mport { EmployeeService } from '../employee.service';
+import { FormsModule } from '@angular/forms';
+import { Employee } from '../models/employee.model';
 import { EmployeeService } from '../employee.service';
-import { SignalRService } from '../signalr.service';
-//import { EmployeeService } from './employee.service';
-//import { SignalRService } from './signalr.service';
 
 @Component({
   selector: 'app-employee',
-  imports: [FormsModule, CommonModule],
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './employee.html',
+  styleUrl: './employee.scss',
 })
-export class Employee implements OnInit {
-  employees: any[] = [];
-  newEmp: any = {};
+export class Employees implements OnInit {
+  constructor(private empService: EmployeeService) {}
+  // showStudent = signal(true);
 
-  constructor(
-    private empService: EmployeeService,
-    private signalR: SignalRService,
-  ) {}
+  // togglePage() {
+  //   this.showStudent.set(!this.showStudent());
+  // }
+  // 🔥 Signal for form
+  employeeForm = signal<Employee>({
+    id: 0,
+    name: '',
+    role: '',
+    department: '',
+    salary: 0,
+  });
 
+  // 🔥 Signal for list
+  employees = signal<Employee[]>([]);
+
+  editId: number | null = null;
+
+  isDeleting = false; // prevent double delete
+  totalRecords = signal(0);
   ngOnInit() {
-    this.load();
+    this.getEmployees();
+  }
 
-    this.signalR.startConnection();
-
-    this.signalR.addListener((action: string, emp: any) => {
-      console.log(action, emp);
-      this.load(); // refresh automatically
+  // 🔹 GET
+  getEmployees() {
+    this.empService.getAll().subscribe({
+      next: (data) => {
+        this.employees.set(data);
+        this.totalRecords.set(data.length);
+      },
+      error: (err) => console.error(err),
     });
   }
 
-  load() {
-    setTimeout(() => {
-      this.empService.getAll().subscribe((res: any) => {
-        this.employees = res;
-      });
-    }, 3000); // ⏳ 3 seconds delay before API call
-  }
+  // 🔹 SAVE (ADD + UPDATE)
+  saveEmployee() {
+    const empData = { ...this.employeeForm() };
 
-  add() {
-    if (
-      !this.newEmp.name ||
-      !this.newEmp.role ||
-      !this.newEmp.department ||
-      this.newEmp.salary == null
-    ) {
-      alert('All fields are required');
+    // 🔥 Validation
+    if (!empData.name || !empData.role || !empData.department || !empData.salary) {
+      alert('Please fill all fields');
       return;
     }
 
-    this.empService.create(this.newEmp).subscribe({
-      next: () => {
-        this.newEmp = {
-          name: '',
-          role: '',
-          department: '',
-          salary: null,
-        };
-      },
-      error: (err) => {
-        console.error('Create Error:', err);
-      },
+    if (this.editId === null) {
+      // 🔥 CREATE (remove id)
+      delete (empData as any).id;
+
+      this.empService.create(empData).subscribe({
+        next: () => {
+          this.getEmployees();
+        },
+        error: (err) => console.error('Create error:', err),
+      });
+    } else {
+      // 🔥 UPDATE
+      this.empService.update(this.editId, empData).subscribe({
+        next: () => {
+          this.getEmployees();
+          this.editId = null;
+        },
+        error: (err) => console.error('Update error:', err),
+      });
+    }
+
+    // 🔹 RESET
+    this.employeeForm.set({
+      id: 0,
+      name: '',
+      role: '',
+      department: '',
+      salary: 0,
     });
   }
 
-  // isSaving = false;
+  // 🔹 EDIT
+  editEmployee(emp: Employee) {
+    this.employeeForm.set({ ...emp });
+    this.editId = emp.id;
+  }
 
-  // add() {
-  //   if (this.isSaving) return;
+  // 🔹 DELETE
+  deleteEmployee(id: number) {
+    if (!id || id === 0) {
+      console.error('Invalid ID:', id);
+      return;
+    }
 
-  //   this.isSaving = true;
+    if (this.isDeleting) return;
 
-  //   this.empService.create(this.newEmp).subscribe({
-  //     next: () => {
-  //       this.newEmp = {};
-  //       this.isSaving = false;
-  //     },
-  //     error: () => {
-  //       this.isSaving = false;
-  //     },
-  //   });
-  // }
+    if (confirm('Are you sure you want to delete?')) {
+      this.isDeleting = true;
 
-  // delete(id: number) {
-  //   this.empService.delete(id).subscribe();
-  // }
-  delete(id: number) {
-    this.empService.delete(id).subscribe({
-      next: () => {
-        console.log('Deleted');
-        this.load(); // 🔥 refresh list
-      },
-      error: (err) => {
-        console.error('Delete Error:', err);
-      },
-    });
+      this.empService.delete(id).subscribe({
+        next: () => {
+          this.getEmployees();
+          this.isDeleting = false;
+        },
+        error: (err) => {
+          console.error('Delete error:', err);
+          this.isDeleting = false;
+        },
+      });
+    }
   }
 }

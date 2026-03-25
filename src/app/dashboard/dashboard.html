@@ -1,45 +1,48 @@
 <div class="container-fluid">
-<div class="row">
+  <div class="row">
 
-<!-- Sidebar -->
-<div class="col-2 bg-dark text-white vh-100">
+    <!-- 🔹 Sidebar -->
+    <div class="col-2 bg-dark text-white vh-100">
 
-<h4 class="p-3">Dashboard</h4>
+      <h4 class="p-3">Dashboard</h4>
 
-<ul class="nav flex-column">
+      <ul class="nav flex-column">
 
-<li class="nav-item">
-  <button class="btn text-white w-100 text-start" routerLink="/dashboard">
-    🏠 Home
-  </button>
-</li>
-<br>
-<li class="nav-item">
-  <button 
-    class="btn text-white w-100 text-start"  routerLink="/Users" (click)="openUsers()"> 👤 User CRUD
-  </button>
-</li>
-<br>
-<br>
-<li class="nav-item">
-  <button 
-    class="btn text-white w-100 text-start"  routerLink="/employee" (click)="openEmployee()"> 👤 Employee CRUD
-  </button>
-</li>
-<br>
-<li class="nav-item">
-  <button class="btn btn-danger nav-link" (click)="logout()">
-    Logout
-  </button>
-</li>
+        <br>
+        <li class="nav-item"> 
+          <button class="btn text-white w-100 text-start" routerLink="/dashboard"> 
+            🏠 Home </button> 
+          </li>
 
-</ul>
+          <br>
+        <li class="nav-item mb-2">
+          <button class="btn text-white w-100 text-start" (click)="openUsers()">
+            👤 User CRUD
+          </button>
+        </li>
 
-</div>
+        <!-- <li class="nav-item mb-2">
+          <button class="btn text-white w-100 text-start" (click)="openEmployee()">
+            👨‍💼 Employee CRUD
+          </button>
+        </li> -->
 
-<!-- Page Content -->
-<div class="col-10 p-4">
-</div>
+        <br> <li class="nav-item"> 
+          <button class="btn text-white w-100 text-start" routerLink="/employee-search" (click)="openEmployeeDetails()"> 
+            👤 Employee Details </button> </li> 
+            <br>
+        <li class="nav-item mt-3">
 
-</div>
+          <button class="btn btn-danger w-50" style="border-radius: 50px;" (click)="logout()">
+            Logout
+          </button>
+        </li>
+
+      </ul>
+
+    </div>
+
+    <!-- 🔹 Main Content -->
+    
+  </div>
 </div>

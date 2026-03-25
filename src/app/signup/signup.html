@@ -18,7 +18,7 @@
           name="firstName"
           #firstName="ngModel"
           required
-          placeholder="Enter First Name">
+          placeholder="Enter First Name" style="border-radius: 50px;">
 
         <small class="text-danger" *ngIf="firstName.invalid && firstName.touched">
           First name is required
@@ -35,7 +35,7 @@
           name="lastName"
           #lastName="ngModel"
           required
-          placeholder="Enter Last Name">
+          placeholder="Enter Last Name" style="border-radius: 50px;">
 
         <small class="text-danger" *ngIf="lastName.invalid && lastName.touched">
           Last name is required
@@ -53,7 +53,7 @@
           #email="ngModel"
           required
           email
-          placeholder="Enter Email">
+          placeholder="Enter Email" style="border-radius: 50px;">
 
         <small class="text-danger" *ngIf="email.invalid && email.touched">
           Enter a valid email
@@ -71,7 +71,7 @@
           #password="ngModel"
           required
           minlength="6"
-          placeholder="Enter Password">
+          placeholder="Enter Password" style="border-radius: 50px;">
 
         <small class="text-danger" *ngIf="password.invalid && password.touched">
           Password must be at least 6 characters
@@ -89,7 +89,7 @@
           #phone="ngModel"
           required
           pattern="^[0-9]{10}$"
-          placeholder="Enter Phone Number">
+          placeholder="Enter Phone Number" style="border-radius: 50px;">
 
         <small class="text-danger" *ngIf="phone.invalid && phone.touched">
           Phone number must be 10 digits
@@ -102,7 +102,7 @@
     class="form-control"
     [(ngModel)]="user.role"
     name="role"
-    required>
+    required style="border-radius: 15px;">
 
     <option value="">-- Select Role --</option>
     <option value="Admin">Admin</option>
@@ -120,7 +120,7 @@
       <button
         type="submit"
         class="btn btn-primary btn-block"
-        [disabled]="signupForm.invalid">
+        [disabled]="signupForm.invalid" style="border-radius: 50px;">
         Signup
       </button>
 
@@ -130,7 +130,7 @@
       <button
         type="button"
         class="btn btn-secondary btn-block"
-        (click)="goBack()">
+        (click)="goBack()" style="border-radius: 50px;">
         Back to Login
       </button>
 
