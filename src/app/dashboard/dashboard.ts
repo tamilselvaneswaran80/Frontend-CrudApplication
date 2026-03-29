@@ -22,6 +22,10 @@ export class Dashboard {
     this.router.navigate(['/Users']);
   }
 
+  openHomePage() {
+    this.router.navigate(['/homepage']);
+  }
+
   openEmployee() {
     this.router.navigate(['/employee']);
   }

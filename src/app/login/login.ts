@@ -53,7 +53,7 @@ export class Login {
           this.permission.loadPermissions([role]);
 
           // ✅ Allowed roles
-          const allowedRoles = ['ADMIN', 'STUDENT'];
+          const allowedRoles = ['ADMIN', 'STUDENT', 'TEACHER'];
 
           if (allowedRoles.includes(role)) {
             this.router.navigate(['/dashboard']);

@@ -1,0 +1,63 @@
+<div class="container mt-4">
+
+  <!-- Welcome Section -->
+  <div class="text-center mb-4">
+    <h2>Welcome to Management System</h2>
+    <p class="text-muted">
+      Manage Students and Employees easily in one place
+    </p>
+  </div>
+
+  <!-- Cards Section -->
+  <div class="row">
+
+    <!-- Student Card -->
+    <div class="col-md-6 mb-3">
+      <div class="card shadow-lg border-0 h-100">
+        <div class="card-body text-center">
+          <h4 class="card-title">🎓 Students</h4>
+          <p class="card-text">
+            Add, update, delete and view student details.
+          </p>
+          <button class="btn btn-primary" routerLink="/students">
+            Go to Students
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Employee Card -->
+    <div class="col-md-6 mb-3">
+      <div class="card shadow-lg border-0 h-100">
+        <div class="card-body text-center">
+          <h4 class="card-title">💼 Employees</h4>
+          <p class="card-text">
+            Manage employee records and operations.
+          </p>
+          <button class="btn btn-success" routerLink="/employees">
+            Go to Employees
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Summary Section -->
+  <div class="row mt-4 text-center">
+
+    <div class="col-md-6">
+      <div class="alert alert-info">
+        📊 Total Students: {{ totalStudents }}
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="alert alert-warning">
+        📊 Total Employees: {{ totalEmployees }}
+      </div>
+    </div>
+
+  </div>
+
+</div>

@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './reset-password.html',
+  styleUrl: './reset-password.scss',
 })
 export class ResetPassword {
   resetData = {

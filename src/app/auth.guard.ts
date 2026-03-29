@@ -11,39 +11,8 @@ export class AuthGuard implements CanActivate {
     private router: Router,
   ) {}
 
-  //   canActivate(route: ActivatedRouteSnapshot): boolean {
-  //     // ✅ Check login
-  //     if (!this.auth.getToken()) {
-  //       this.router.navigate(['/login']);
-  //       return false;
-  //     }
-
-  //     // ✅ Get required roles from route
-  //     const requiredRoles = route.data['permission'];
-
-  //     // ✅ Get user role
-  //     const userRole = this.auth.getRole();
-
-  //     console.log('User Role:', userRole);
-  //     console.log('Required Roles:', requiredRoles);
-
-  //     // ✅ Role check
-  //     if (requiredRoles && !requiredRoles.includes(userRole)) {
-  //       alert('Access Denied ❌');
-  //       this.router.navigate(['/dashboard']);
-  //       return false;
-  //     }
-
-  //     return true;
-  //   }
-
   canActivate(route: ActivatedRouteSnapshot): boolean {
     // ✅ Check login
-    const token = this.auth.getToken();
-    if (!token) {
-      this.router.navigate(['/login']);
-      return false;
-    }
 
     // ✅ Get permission from route
     const permissions = route.data?.['permission'];
