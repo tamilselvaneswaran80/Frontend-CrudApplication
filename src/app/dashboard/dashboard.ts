@@ -34,8 +34,12 @@ export class Dashboard {
     this.router.navigate(['/employee-search']);
   }
 
+  SignupDetails() {
+    this.router.navigate(['/signup-crud']);
+  }
+
   logout() {
-    alert('Logged out successfully ✅');
+    alert('Logged out successfully');
     this.router.navigate(['/']);
   }
 }

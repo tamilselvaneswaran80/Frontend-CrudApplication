@@ -5,4 +5,5 @@ export interface Student {
   phoneNumber: string;
   age: number;
   course: string;
+  createdDate?: Date;
 }

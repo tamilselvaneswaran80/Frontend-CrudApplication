@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-//import { ApiService } from '../api.service';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { FormsModule } from '@angular/forms';
@@ -45,23 +44,23 @@ export class Login {
         console.log('Login Response:', res);
 
         if (res && res.token) {
-          const role = res.user.role?.toUpperCase(); // 🔥 normalize
+          const role = res.user.role?.toUpperCase(); //normalize
 
           alert('Login Success');
 
           this.auth.setSession(res.token, role);
           this.permission.loadPermissions([role]);
 
-          // ✅ Allowed roles
+          //Allowed roles
           const allowedRoles = ['ADMIN', 'STUDENT', 'TEACHER'];
 
           if (allowedRoles.includes(role)) {
             this.router.navigate(['/dashboard']);
 
-            // ✅ allowed
+            //Allowed
           } else {
-            alert('Access Denied ❌');
-            this.router.navigate(['/login']); // ❌ not allowed
+            alert('Access Denied');
+            this.router.navigate(['/login']); //not allowed
           }
         } else {
           alert('Invalid Email or Password');
@@ -76,9 +75,5 @@ export class Login {
   }
   goToSignup() {
     this.router.navigate(['/signup']);
-  }
-
-  goToSignupCrud() {
-    this.router.navigate(['/signup-crud']);
   }
 }

@@ -3,7 +3,7 @@
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
-<h2 class="mb-4">Employee CRUD</h2>
+<h2 class="mb-4">Employee Details</h2>
 
 <!-- 🔹 FORM (Admin only) -->
 <div>
@@ -47,6 +47,15 @@
     </div>
   </div>
 
+    <div class="form-group row">
+  <label class="col-sm-2 col-form-label">Created Date</label>
+  <div class="col-sm-6 pt-2">
+    <span class="fw-bold text-success">
+      {{ employeeForm().createdDate | date:'dd/MM/yyyy hh:mm a' }}
+    </span>
+  </div>
+</div>
+
   <!-- Button -->
   <div class="form-group row">
     <div class="col-sm-2"></div>
@@ -75,6 +84,7 @@
       <th style=" color: rgb(228, 25, 167);">Role</th>
       <th style=" color: rgb(228, 25, 167);">Department</th>
       <th style=" color: rgb(228, 25, 167);">Salary</th>
+      <th style=" color: rgb(228, 25, 167);">createdDate</th>
       <th style=" color: rgb(228, 25, 167);">Action</th>
     </tr>
   </thead>
@@ -88,6 +98,7 @@
       <td>{{emp.role}}</td>
       <td>{{emp.department}}</td>
       <td>{{emp.salary}}</td>
+     <td>{{ emp.createdDate | date:'short' }}</td>
 
       <td>
 

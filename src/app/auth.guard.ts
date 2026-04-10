@@ -11,38 +11,34 @@ export class AuthGuard implements CanActivate {
     private router: Router,
   ) {}
 
-  canActivate(route: ActivatedRouteSnapshot): boolean {
-    // ✅ Check login
-
-    // ✅ Get permission from route
+  canActivate(route: ActivatedRouteSnapshot): boolean | any {
     const permissions = route.data?.['permission'];
-
-    // ✅ Get user role
     let userRole = this.auth.getRole();
 
     console.log('User Role:', userRole);
     console.log('Required permissions:', permissions);
 
-    // ✅ If no role found
+    if (route.routeConfig?.path === 'login') {
+      return true;
+    }
+    //No role → go to login
     if (!userRole) {
-      alert('No role found ❌');
-      this.router.navigate(['/login']);
-      return false;
+      alert('No role found');
+      return this.router.createUrlTree(['/login']);
     }
 
-    // ✅ Normalize (IMPORTANT)
+    // Normalize
     userRole = userRole.toUpperCase();
 
-    // ✅ If route has roles, check access
-    if (permissions && permissions.length) {
-      if (!permissions.includes(userRole)) {
-        alert('Access Denied ❌');
-        //this.router.navigate(['/login']);
-        this.router.navigate(['/dashboard']);
-        return false;
-      }
+    //No permission → go to login
+    if (permissions && permissions.length === 0) {
+      return this.router.createUrlTree(['/dashboard']);
     }
 
+    if (!permissions.includes(userRole)) {
+      alert('Access Denied');
+      return this.router.createUrlTree(['/login']);
+    }
     return true;
   }
 }

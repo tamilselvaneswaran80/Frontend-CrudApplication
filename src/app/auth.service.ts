@@ -16,7 +16,7 @@ export class AuthService {
 
   //   getRole(): string | null {
   //     const role = localStorage.getItem('role');
-  //     console.log('Getting Role:', role); // ✅ debug
+  //     console.log('Getting Role:', role);
   //     return role;
   //   }
 

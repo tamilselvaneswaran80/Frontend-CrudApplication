@@ -10,12 +10,23 @@ import { Homepage } from './homepage/homepage';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-
   { path: 'login', component: Login },
   { path: 'signup', component: Signup },
-  { path: 'homepage', component: Homepage },
   { path: 'reset-password', component: ResetPassword },
-  { path: 'signup-crud', component: SignupCrud },
+
+  {
+    path: 'homepage',
+    component: Homepage,
+    canActivate: [AuthGuard],
+    data: { permission: ['TEACHER'] },
+  },
+
+  {
+    path: 'signup-crud',
+    component: SignupCrud,
+    canActivate: [AuthGuard],
+    data: { permission: ['STUDENT'] },
+  },
 
   {
     path: 'employee',
@@ -23,6 +34,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: { permission: ['ADMIN', 'STUDENT'] },
   },
+
   {
     path: 'employee-search',
     component: EmployeeSearch,
@@ -36,6 +48,7 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: { permission: ['ADMIN', 'STUDENT'] },
   },
+
   {
     path: 'Users',
 
@@ -43,5 +56,6 @@ export const routes: Routes = [
     canActivate: [AuthGuard],
     data: { permission: ['ADMIN'] },
   },
-  { path: '**', redirectTo: 'login' }, // 🔥 IMPORTANT
+
+  { path: '**', redirectTo: 'login' }, //Important
 ];

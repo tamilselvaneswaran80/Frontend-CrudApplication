@@ -13,18 +13,20 @@ import { EmployeeService } from '../employee.service';
 })
 export class Employees implements OnInit {
   constructor(private empService: EmployeeService) {}
+  currentDateTime: Date = new Date();
   // showStudent = signal(true);
 
   // togglePage() {
   //   this.showStudent.set(!this.showStudent());
   // }
-  // 🔥 Signal for form
+  // Signal for form
   employeeForm = signal<Employee>({
     id: 0,
     name: '',
     role: '',
     department: '',
     salary: 0,
+    createdDate: new Date(),
   });
 
   // 🔥 Signal for list
@@ -35,10 +37,13 @@ export class Employees implements OnInit {
   isDeleting = false; // prevent double delete
   totalRecords = signal(0);
   ngOnInit() {
+    setInterval(() => {
+      this.currentDateTime = new Date();
+    }, 1000);
     this.getEmployees();
   }
 
-  // 🔹 GET
+  // GET
   getEmployees() {
     this.empService.getAll().subscribe({
       next: (data) => {
@@ -49,18 +54,25 @@ export class Employees implements OnInit {
     });
   }
 
-  // 🔹 SAVE (ADD + UPDATE)
+  //SAVE (ADD + UPDATE)
   saveEmployee() {
+    if (this.editId === null) {
+      // New Student → set date
+      this.employeeForm.update((s) => ({
+        ...s,
+        createdDate: new Date(),
+      }));
+    }
     const empData = { ...this.employeeForm() };
 
-    // 🔥 Validation
+    // Validation
     if (!empData.name || !empData.role || !empData.department || !empData.salary) {
       alert('Please fill all fields');
       return;
     }
 
     if (this.editId === null) {
-      // 🔥 CREATE (remove id)
+      // CREATE (remove id)
       delete (empData as any).id;
 
       this.empService.create(empData).subscribe({
@@ -70,7 +82,7 @@ export class Employees implements OnInit {
         error: (err) => console.error('Create error:', err),
       });
     } else {
-      // 🔥 UPDATE
+      //UPDATE
       this.empService.update(this.editId, empData).subscribe({
         next: () => {
           this.getEmployees();
@@ -80,7 +92,7 @@ export class Employees implements OnInit {
       });
     }
 
-    // 🔹 RESET
+    //  RESET
     this.employeeForm.set({
       id: 0,
       name: '',
@@ -90,13 +102,13 @@ export class Employees implements OnInit {
     });
   }
 
-  // 🔹 EDIT
+  // EDIT
   editEmployee(emp: Employee) {
     this.employeeForm.set({ ...emp });
     this.editId = emp.id;
   }
 
-  // 🔹 DELETE
+  //DELETE
   deleteEmployee(id: number) {
     if (!id || id === 0) {
       console.error('Invalid ID:', id);

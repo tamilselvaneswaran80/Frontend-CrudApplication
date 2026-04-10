@@ -16,6 +16,7 @@ import { Employees } from '../employee/employee';
 export class User implements OnInit {
   constructor(private studentService: StudentService) {}
   showUser = signal(true);
+  currentDateTime: Date = new Date();
 
   togglePage() {
     this.showUser.set(!this.showUser());
@@ -28,6 +29,7 @@ export class User implements OnInit {
     phoneNumber: '',
     age: 0,
     course: '',
+    createdDate: new Date(),
   });
 
   students = signal<Student[]>([]);
@@ -35,6 +37,9 @@ export class User implements OnInit {
   totalRecords = signal(0);
   // Load students when page opens
   ngOnInit() {
+    setInterval(() => {
+      this.currentDateTime = new Date();
+    }, 1000);
     this.getStudents();
   }
 
@@ -42,7 +47,7 @@ export class User implements OnInit {
   getStudents() {
     this.studentService.getStudents().subscribe({
       next: (data) => {
-        this.students.set(data); // 🔥 signal update
+        this.students.set(data); //signal update
         this.totalRecords.set(data.length);
       },
       error: (err) => console.error(err),
@@ -51,9 +56,16 @@ export class User implements OnInit {
 
   // SAVE Student
   saveStudent() {
+    if (this.editIndex === null) {
+      //New Student → set date
+      this.studentlist.update((s) => ({
+        ...s,
+        createdDate: new Date(),
+      }));
+    }
     const studentData = { ...this.studentlist() };
 
-    // 🔥 VALIDATION (DO NOT CHECK ID)
+    // VALIDATION (DO NOT CHECK ID)
     if (
       !studentData.firstname ||
       !studentData.lastname ||
@@ -66,7 +78,7 @@ export class User implements OnInit {
     }
 
     if (this.editIndex === null) {
-      // 🔥 REMOVE ID for CREATE
+      //REMOVE ID for CREATE
       delete (studentData as any).studentId;
 
       this.studentService.createStudent(studentData).subscribe({
@@ -98,6 +110,7 @@ export class User implements OnInit {
       phoneNumber: '',
       age: 0,
       course: '',
+      createdDate: new Date(),
     });
   }
 
@@ -117,7 +130,7 @@ export class User implements OnInit {
       return;
     }
 
-    if (this.isDeleting) return; // 🔥 prevent double call
+    if (this.isDeleting) return; //prevent double call
 
     this.isDeleting = true;
 

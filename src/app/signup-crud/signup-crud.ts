@@ -24,13 +24,13 @@ export class SignupCrud implements OnInit {
     this.getUsers();
   }
 
-  // ✅ GET USERS
+  //GET USERS
   getUsers() {
     this.userService.getUsers().subscribe({
       next: (res: User[]) => {
         console.log('DATA:', res);
 
-        this.users.set(res); // ✅ set signal value
+        this.users.set(res); //set signal value
       },
       error: (err) => {
         console.error('ERROR:', err);
@@ -38,7 +38,7 @@ export class SignupCrud implements OnInit {
     });
   }
 
-  // ✅ DELETE
+  //DELETE
   deleteUser(id?: number) {
     if (!id) return;
 
@@ -51,12 +51,8 @@ export class SignupCrud implements OnInit {
     console.log(user);
   }
 
-  logout() {
-    // 🔹 Remove auth data
-    localStorage.removeItem('token');
-    localStorage.removeItem('role');
-
-    // 🔹 Redirect to login page
-    this.router.navigate(['/login']);
+  logoutsignup() {
+    //Redirect to login page
+    this.router.navigate(['/dashboard']);
   }
 }
