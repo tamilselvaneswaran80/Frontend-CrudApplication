@@ -1,41 +1,56 @@
 <div class="container mt-4">
 
-  <!-- Welcome Section -->
-  <div class="text-center mb-4">
-    <h2>Welcome to Management System</h2>
+  <!-- Header -->
+  <div class="text-center mb-5">
+    <h2 class="fw-bold">Welcome</h2>
     <p class="text-muted">
-      Manage Students and Employees easily in one place
+      Manage your application easily using the dashboard
     </p>
   </div>
 
-  <!-- Cards Section -->
-  <div class="row">
+  <!-- Quick Actions -->
+  <div class="row g-4">
 
-    <!-- Student Card -->
-    <div class="col-md-6 mb-3">
-      <div class="card shadow-lg border-0 h-100">
-        <div class="card-body text-center">
-          <h4 class="card-title">🎓 Students</h4>
-          <p class="card-text">
-            Add, update, delete and view student details.
+    <div class="col-md-4">
+      <div class="card shadow h-100 text-center border-0">
+        <div class="card-body">
+          <h1>📂</h1>
+          <h5 class="card-title">Manage Data</h5>
+          <p class="card-text text-muted">
+            Access and manage your records
           </p>
-          <button class="btn btn-primary" routerLink="/students">
-            Go to Students
-          </button>
+          <a routerLink="/users" class="btn btn-primary w-100">
+            Open
+          </a>
         </div>
       </div>
     </div>
 
-    <!-- Employee Card -->
-    <div class="col-md-6 mb-3">
-      <div class="card shadow-lg border-0 h-100">
-        <div class="card-body text-center">
-          <h4 class="card-title">💼 Employees</h4>
-          <p class="card-text">
-            Manage employee records and operations.
+    <div class="col-md-4">
+      <div class="card shadow h-100 text-center border-0">
+        <div class="card-body">
+          <h1>🔍</h1>
+          <h5 class="card-title">Search</h5>
+          <p class="card-text text-muted">
+            Find information quickly
           </p>
-          <button class="btn btn-success" routerLink="/employees">
-            Go to Employees
+          <a routerLink="/employee-search" class="btn btn-success w-100">
+            Search
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card shadow h-100 text-center border-0">
+        <div class="card-body">
+          <h1>⚙️</h1>
+          <h5 class="card-title">Settings</h5>
+          <p class="card-text text-muted">
+            Update your preferences
+          </p>
+          <button class="btn btn-secondary w-100">
+            Configure
           </button>
         </div>
       </div>
@@ -43,18 +58,37 @@
 
   </div>
 
-  <!-- Summary Section -->
-  <div class="row mt-4 text-center">
+  <!-- Info Section -->
+  <div class="row mt-5 g-4">
 
+    <!-- Tips -->
     <div class="col-md-6">
-      <div class="alert alert-info">
-        📊 Total Students: {{ totalStudents }}
+      <div class="card shadow border-0">
+        <div class="card-header bg-primary text-white">
+          Tips
+        </div>
+        <div class="card-body">
+          <ul class="mb-0">
+            <li>Use sidebar for navigation</li>
+            <li>Keep data updated</li>
+            <li>Check system regularly</li>
+          </ul>
+        </div>
       </div>
     </div>
 
+    <!-- Notifications -->
     <div class="col-md-6">
-      <div class="alert alert-warning">
-        📊 Total Employees: {{ totalEmployees }}
+      <div class="card shadow border-0">
+        <div class="card-header bg-warning text-dark">
+          Notifications
+        </div>
+        <div class="card-body">
+          <ul class="mb-0">
+            <li>No new notifications</li>
+            <li>System running normally</li>
+          </ul>
+        </div>
       </div>
     </div>
 

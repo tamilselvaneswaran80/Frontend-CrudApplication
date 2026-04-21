@@ -1,0 +1,59 @@
+<div class="d-flex">
+
+  <!-- Sidebar -->
+  <div class="bg-dark text-white vh-100 p-3 sidebar"
+       [class.collapsed]="isCollapsed"
+       style="width: 250px; transition: 0.3s;">
+
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <h5 *ngIf="!isCollapsed" class="m-0">Dashboard</h5>
+    </div>
+
+    <!-- Menu -->
+    <ul class="nav flex-column">
+
+      <li class="nav-item mb-2">
+        <a class="nav-link text-white"
+           routerLink="/homepage"
+           routerLinkActive="active">
+          🏠 <span *ngIf="!isCollapsed">Home</span>
+        </a>
+      </li>
+
+      <li class="nav-item mb-2">
+        <a class="nav-link text-white"
+           routerLink="/users"
+           routerLinkActive="active">
+          👤 <span *ngIf="!isCollapsed">Student CRUD</span>
+        </a>
+      </li>
+
+      <li class="nav-item mb-2">
+        <a class="nav-link text-white"
+           routerLink="/employee-search"
+           routerLinkActive="active">
+          📋 <span *ngIf="!isCollapsed">Employee Details</span>
+        </a>
+      </li>
+
+      <li class="nav-item mb-2">
+        <a class="nav-link text-white"
+           routerLink="/signup-crud"
+           routerLinkActive="active">
+          📝 <span *ngIf="!isCollapsed">Signup Page</span>
+        </a>
+      </li>
+
+    </ul>
+
+    <!-- Logout -->
+    <div class="mt-auto">
+      <button class="btn btn-danger w-100" (click)="logout()">
+        🚪 <span *ngIf="!isCollapsed">Logout</span>
+      </button>
+    </div>
+
+  </div>
+
+</div>

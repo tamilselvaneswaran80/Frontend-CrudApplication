@@ -11,13 +11,9 @@ export class EmployeeService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(): Observable<Employee[]> {
-    return this.http.get<Employee[]>(this.api);
+  getAll(page: number, pageSize: number): Observable<any> {
+    return this.http.get<any>(`${this.api}?page=${page}&pageSize=${pageSize}`);
   }
-
-  // create(emp: Employee): Observable<Employee> {
-  //   return this.http.post<Employee>(this.api, emp);
-  // }
 
   getById(id: number): Observable<Employee> {
     return this.http.get<Employee>(`${this.api}/${id}`);
@@ -26,9 +22,6 @@ export class EmployeeService {
   create(emp: Employee): Observable<Employee> {
     return this.http.post<Employee>(`${this.api}/create`, emp);
   }
-  // update(id: number, emp: Employee): Observable<Employee> {
-  //   return this.http.put<Employee>(`${this.api}/${id}`, emp);
-  // }
 
   update(id: number, emp: Employee): Observable<Employee> {
     return this.http.put<Employee>(`${this.api}/update/${id}`, emp);

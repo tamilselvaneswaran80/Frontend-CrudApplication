@@ -10,7 +10,7 @@
     <div class="col-sm-4">
       <input type="number"
              [(ngModel)]="searchId"
-             class="form-control"
+             class="form-control" min="1"
              placeholder="Enter Employee ID" style="border-radius: 50px;">
     </div>
 
@@ -58,6 +58,10 @@
       <tr>
         <th>Salary</th>
         <td>{{employee()?.salary}}</td>
+      </tr>
+      <tr>
+        <th>CreatedDate</th>
+       <td>{{ employee()?.createdDate | date:'dd-MM-yyyy HH:mm:ss' }}</td>
       </tr>
     </table>
 

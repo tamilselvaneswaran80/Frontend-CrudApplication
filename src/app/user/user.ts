@@ -35,6 +35,9 @@ export class User implements OnInit {
   students = signal<Student[]>([]);
   editIndex: number | null = null;
   totalRecords = signal(0);
+  currentPage = signal(1);
+  pageSize = 10;
+
   // Load students when page opens
   ngOnInit() {
     setInterval(() => {

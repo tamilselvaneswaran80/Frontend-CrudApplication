@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StudentService } from '../student.service';
 import { EmployeeService } from '../employee.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -16,7 +15,6 @@ export class Homepage implements OnInit {
   constructor(
     private studentService: StudentService,
     private employeeService: EmployeeService,
-    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -28,8 +26,8 @@ export class Homepage implements OnInit {
       this.totalStudents = res.length;
     });
 
-    this.employeeService.getAll().subscribe((res: any[]) => {
-      this.totalEmployees = res.length;
+    this.employeeService.getAll(1, 10).subscribe((res) => {
+      this.totalEmployees = res.totalCount;
     });
   }
 }

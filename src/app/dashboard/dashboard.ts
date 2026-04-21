@@ -2,40 +2,26 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../user.service';
 import { CommonModule } from '@angular/common';
-//import { User } from '../user/user';
-//import { Employees } from '../employee/employee';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css',
+  styleUrls: ['./dashboard.css'],
 })
 export class Dashboard {
+  isCollapsed = false;
+
   constructor(
     private user: UserService,
     private router: Router,
   ) {}
 
-  openUsers() {
-    this.router.navigate(['/Users']);
-  }
-
-  openHomePage() {
-    this.router.navigate(['/homepage']);
-  }
-
-  openEmployee() {
-    this.router.navigate(['/employee']);
-  }
-
-  openEmployeeDetails() {
-    this.router.navigate(['/employee-search']);
-  }
-
-  SignupDetails() {
-    this.router.navigate(['/signup-crud']);
+  toggleSidebar() {
+    this.isCollapsed = !this.isCollapsed;
   }
 
   logout() {

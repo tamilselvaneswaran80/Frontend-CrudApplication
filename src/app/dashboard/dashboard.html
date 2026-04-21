@@ -1,61 +1,65 @@
+<div class="container mt-4">
 
-<div class="container-fluid">
-  <div class="row">
+  <!-- Header -->
+  <div class="text-center mb-4">
+    <h2>🚀 Dashboard</h2>
+    <p class="text-muted">System Overview & Quick Access</p>
+  </div>
 
-    <!-- 🔹 Sidebar -->
-    <div class="col-2 bg-dark text-white vh-100">
+  <!-- Info Cards -->
+  <div class="row text-center">
 
-      <h4 class="p-3">Dashboard</h4>
-
-      <ul class="nav flex-column">
-
-        <br>
-        <li class="nav-item"> 
-          <button class="btn text-white w-100 text-start" (click)="openHomePage()"> 
-            🏠 Home </button> 
-          </li>
-
-          <br>
-        <li class="nav-item mb-2">
-          <button class="btn text-white w-100 text-start" (click)="openUsers()">
-            👤 Student CRUD
-          </button>
-        </li>
-
-        <!-- <li class="nav-item mb-2">
-          <button class="btn text-white w-100 text-start" (click)="openEmployee()">
-            👨‍💼 Employee CRUD
-          </button>
-        </li> -->
-
-        <br> <li class="nav-item"> 
-          <button class="btn text-white w-100 text-start" routerLink="/employee-search" (click)="openEmployeeDetails()"> 
-            👤 Employee Details </button> </li> 
-            <br>
-
-             <br> <li class="nav-item"> 
-          <button class="btn text-white w-100 text-start" routerLink="/signup-crud" (click)="SignupDetails()"> 
-            👨‍💼 Signup Page </button> </li> 
-            <br>
-
-            <!-- <button
-  type="button"
-  class="btn btn-success btn-block"
-  (click)="goToSignupCrud()"  style="border-radius: 15px;color: rgb(232, 126, 26);" >
-  Signup User PageCrud
-</button> -->
-        <li class="nav-item mt-3">
-
-          <button class="btn btn-danger w-50" style="border-radius: 50px;" (click)="logout()">
-            Logout
-          </button>
-        </li>
-
-      </ul>
-
+    <div class="col-md-4 mb-3">
+      <div class="card shadow p-4">
+        <h5>📊 Reports</h5>
+        <p class="text-muted">View system reports and analytics</p>
+        <button class="btn btn-outline-primary">Open</button>
+      </div>
     </div>
 
-    <!-- 🔹 Main Content -->
-    
+    <div class="col-md-4 mb-3">
+      <div class="card shadow p-4">
+        <h5>⚙️ Settings</h5>
+        <p class="text-muted">Manage application settings</p>
+        <button class="btn btn-outline-secondary">Configure</button>
+      </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+      <div class="card shadow p-4">
+        <h5>👤 Profile</h5>
+        <p class="text-muted">View and update your profile</p>
+        <button class="btn btn-outline-success">View</button>
+      </div>
+    </div>
+
   </div>
+
+  <!-- Activity Section -->
+  <div class="row mt-4">
+
+    <div class="col-md-6">
+      <div class="card shadow p-4">
+        <h5>📌 Recent Activity</h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">User logged in</li>
+          <li class="list-group-item">Profile updated</li>
+          <li class="list-group-item">Settings changed</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card shadow p-4">
+        <h5>📢 Notifications</h5>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">System update available</li>
+          <li class="list-group-item">New message received</li>
+          <li class="list-group-item">Backup completed</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
 </div>

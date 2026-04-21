@@ -13,13 +13,9 @@ import { EmployeeService } from '../employee.service';
 })
 export class Employees implements OnInit {
   constructor(private empService: EmployeeService) {}
-  currentDateTime: Date = new Date();
-  // showStudent = signal(true);
 
-  // togglePage() {
-  //   this.showStudent.set(!this.showStudent());
-  // }
-  // Signal for form
+  currentDateTime: Date = new Date();
+
   employeeForm = signal<Employee>({
     id: 0,
     name: '',
@@ -29,13 +25,18 @@ export class Employees implements OnInit {
     createdDate: new Date(),
   });
 
-  // 🔥 Signal for list
+  //Signal for list
   employees = signal<Employee[]>([]);
 
   editId: number | null = null;
 
-  isDeleting = false; // prevent double delete
+  isDeleting = false;
   totalRecords = signal(0);
+  totalPages = signal(0);
+  currentPage = signal(1);
+  pageSize = 10;
+
+  pages: number[] = [];
   ngOnInit() {
     setInterval(() => {
       this.currentDateTime = new Date();
@@ -45,10 +46,15 @@ export class Employees implements OnInit {
 
   // GET
   getEmployees() {
-    this.empService.getAll().subscribe({
-      next: (data) => {
-        this.employees.set(data);
-        this.totalRecords.set(data.length);
+    this.empService.getAll(this.currentPage(), this.pageSize).subscribe({
+      next: (res) => {
+        const total = res.total ?? res.totalCount ?? 0;
+        this.employees.set(res.data);
+        this.totalRecords.set(res.total);
+        const totalPages = Math.ceil(total / this.pageSize);
+        this.totalPages.set(totalPages);
+
+        this.pages = Array.from({ length: totalPages }, (_, i) => i + 1);
       },
       error: (err) => console.error(err),
     });
@@ -66,7 +72,7 @@ export class Employees implements OnInit {
     const empData = { ...this.employeeForm() };
 
     // Validation
-    if (!empData.name || !empData.role || !empData.department || !empData.salary) {
+    if (!empData.name || !empData.role || !empData.department || empData.salary <= 0) {
       alert('Please fill all fields');
       return;
     }
@@ -99,6 +105,7 @@ export class Employees implements OnInit {
       role: '',
       department: '',
       salary: 0,
+      createdDate: new Date(),
     });
   }
 
@@ -130,6 +137,27 @@ export class Employees implements OnInit {
           this.isDeleting = false;
         },
       });
+    }
+  }
+
+  // 🔹 GO TO PAGE
+  goToPage(page: number) {
+    this.currentPage.set(page);
+    this.getEmployees();
+  }
+
+  nextPage() {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.set(this.currentPage() + 1);
+      this.getEmployees();
+    }
+  }
+
+  //PREVIOUS
+  prevPage() {
+    if (this.currentPage() > 1) {
+      this.currentPage.set(this.currentPage() - 1);
+      this.getEmployees();
     }
   }
 }
