@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./signup-crud.css'],
 })
 export class SignupCrud implements OnInit {
-  // ✅ SIGNAL (IMPORTANT)
+  //SIGNAL (IMPORTANT)
   users = signal<User[]>([]);
 
   constructor(
@@ -47,12 +47,12 @@ export class SignupCrud implements OnInit {
     });
   }
 
-  editUser(user: User) {
-    console.log(user);
-  }
+  // editUser(user: User) {
+  //   console.log(user);
+  // }
 
-  logoutsignup() {
-    //Redirect to login page
-    this.router.navigate(['/dashboard']);
-  }
+  // logoutsignup() {
+  //   //Redirect to login page
+  //   this.router.navigate(['/dashboard']);
+  // }
 }

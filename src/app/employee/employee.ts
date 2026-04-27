@@ -14,8 +14,10 @@ import { EmployeeService } from '../employee.service';
 export class Employees implements OnInit {
   constructor(private empService: EmployeeService) {}
 
+  // 🔹 LIVE TIME
   currentDateTime: Date = new Date();
 
+  // 🔹 FORM
   employeeForm = signal<Employee>({
     id: 0,
     name: '',
@@ -25,32 +27,40 @@ export class Employees implements OnInit {
     createdDate: new Date(),
   });
 
-  //Signal for list
+  // 🔹 LIST
   employees = signal<Employee[]>([]);
 
   editId: number | null = null;
-
   isDeleting = false;
+
+  // 🔹 PAGINATION
   totalRecords = signal(0);
   totalPages = signal(0);
   currentPage = signal(1);
   pageSize = 10;
-
   pages: number[] = [];
+
+  // ================= INIT =================
   ngOnInit() {
     setInterval(() => {
       this.currentDateTime = new Date();
     }, 1000);
+
     this.getEmployees();
   }
 
-  // GET
+  // ================= GET =================
   getEmployees() {
     this.empService.getAll(this.currentPage(), this.pageSize).subscribe({
-      next: (res) => {
-        const total = res.total ?? res.totalCount ?? 0;
-        this.employees.set(res.data);
-        this.totalRecords.set(res.total);
+      next: (res: any) => {
+        console.log('API:', res);
+
+        // ✅ FIX: use fallback safely
+        const total = res.totalCount ?? res.total ?? 0;
+
+        this.employees.set(res.data ?? []);
+        this.totalRecords.set(total);
+
         const totalPages = Math.ceil(total / this.pageSize);
         this.totalPages.set(totalPages);
 
@@ -60,35 +70,33 @@ export class Employees implements OnInit {
     });
   }
 
-  //SAVE (ADD + UPDATE)
+  // ================= SAVE =================
   saveEmployee() {
     if (this.editId === null) {
-      // New Student → set date
-      this.employeeForm.update((s) => ({
-        ...s,
+      this.employeeForm.update((e) => ({
+        ...e,
         createdDate: new Date(),
       }));
     }
+
     const empData = { ...this.employeeForm() };
 
-    // Validation
+    // 🔹 VALIDATION
     if (!empData.name || !empData.role || !empData.department || empData.salary <= 0) {
       alert('Please fill all fields');
       return;
     }
 
     if (this.editId === null) {
-      // CREATE (remove id)
+      // CREATE
       delete (empData as any).id;
 
       this.empService.create(empData).subscribe({
-        next: () => {
-          this.getEmployees();
-        },
+        next: () => this.getEmployees(),
         error: (err) => console.error('Create error:', err),
       });
     } else {
-      //UPDATE
+      // UPDATE
       this.empService.update(this.editId, empData).subscribe({
         next: () => {
           this.getEmployees();
@@ -98,7 +106,7 @@ export class Employees implements OnInit {
       });
     }
 
-    //  RESET
+    // 🔹 RESET FORM
     this.employeeForm.set({
       id: 0,
       name: '',
@@ -109,19 +117,15 @@ export class Employees implements OnInit {
     });
   }
 
-  // EDIT
+  // ================= EDIT =================
   editEmployee(emp: Employee) {
     this.employeeForm.set({ ...emp });
     this.editId = emp.id;
   }
 
-  //DELETE
+  // ================= DELETE =================
   deleteEmployee(id: number) {
-    if (!id || id === 0) {
-      console.error('Invalid ID:', id);
-      return;
-    }
-
+    if (!id || id === 0) return;
     if (this.isDeleting) return;
 
     if (confirm('Are you sure you want to delete?')) {
@@ -140,7 +144,8 @@ export class Employees implements OnInit {
     }
   }
 
-  // 🔹 GO TO PAGE
+  // ================= PAGINATION =================
+
   goToPage(page: number) {
     this.currentPage.set(page);
     this.getEmployees();
@@ -153,7 +158,6 @@ export class Employees implements OnInit {
     }
   }
 
-  //PREVIOUS
   prevPage() {
     if (this.currentPage() > 1) {
       this.currentPage.set(this.currentPage() - 1);

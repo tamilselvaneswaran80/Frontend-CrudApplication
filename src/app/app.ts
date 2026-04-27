@@ -16,7 +16,7 @@ import { Sidebar } from './sidebar/sidebar';
 export class App implements OnInit {
   protected readonly title = signal('curd-application');
 
-  showSidebar = true; // ✅ default visible
+  showSidebar = true; //default visible
 
   constructor(
     private router: Router,
@@ -28,14 +28,9 @@ export class App implements OnInit {
       .subscribe((event: any) => {
         const url = event.urlAfterRedirects;
 
-        // ❌ hide sidebar ONLY for login page
-        if (url.includes('login')) {
-          this.showSidebar = false;
-        }
-        // ✅ show sidebar for ALL other pages (including signup)
-        else {
-          this.showSidebar = true;
-        }
+        const hideRoutes = ['/login'];
+
+        this.showSidebar = !hideRoutes.some((route) => url.startsWith(route));
       });
   }
 

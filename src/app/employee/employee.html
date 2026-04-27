@@ -118,32 +118,25 @@
     </tr>
 
   </tbody>
-
+  
 </table>
-
-<div class="d-flex justify-content-between align-items-center mt-3">
-
+<div class="d-flex justify-content-between mt-3">
 
   <button class="btn btn-primary"
           (click)="prevPage()"
           [disabled]="currentPage() === 1">
-    Previous
+    Prev
   </button>
 
- 
   <div>
-    <button *ngFor="let page of pages"
-            class="btn me-1"
-            [ngClass]="{
-              'btn-primary': page === currentPage(),
-              'btn-outline-primary': page !== currentPage()
-            }"
-            (click)="goToPage(page)">
-      {{ page }}
+    <button *ngFor="let p of pages"
+            class="btn"
+            [ngClass]="p === currentPage() ? 'btn-primary' : 'btn-outline-primary'"
+            (click)="goToPage(p)">
+      {{p}}
     </button>
   </div>
 
-  <!-- Next -->
   <button class="btn btn-primary"
           (click)="nextPage()"
           [disabled]="currentPage() === totalPages()">

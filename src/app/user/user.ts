@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { StudentService } from '../student.service';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { Employees } from '../employee/employee';
+
 @Component({
   selector: 'app-Users',
   standalone: true,
@@ -15,13 +16,11 @@ import { Employees } from '../employee/employee';
 })
 export class User implements OnInit {
   constructor(private studentService: StudentService) {}
+
   showUser = signal(true);
   currentDateTime: Date = new Date();
 
-  togglePage() {
-    this.showUser.set(!this.showUser());
-  }
-
+  //  FORM DATA
   studentlist = signal<Student>({
     studentId: 0,
     firstname: '',
@@ -32,43 +31,64 @@ export class User implements OnInit {
     createdDate: new Date(),
   });
 
+  //  TABLE DATA
   students = signal<Student[]>([]);
+
   editIndex: number | null = null;
+
+  //  PAGINATION
   totalRecords = signal(0);
+  totalPages = signal(0);
   currentPage = signal(1);
   pageSize = 10;
+  pages: number[] = [];
 
-  // Load students when page opens
+  //  TOGGLE
+  togglePage() {
+    this.showUser.set(!this.showUser());
+  }
+
   ngOnInit() {
     setInterval(() => {
       this.currentDateTime = new Date();
     }, 1000);
+
     this.getStudents();
   }
 
-  // GET Students
+  //  GET WITH PAGINATION
   getStudents() {
-    this.studentService.getStudents().subscribe({
-      next: (data) => {
-        this.students.set(data); //signal update
-        this.totalRecords.set(data.length);
+    this.studentService.getStudents(this.currentPage(), this.pageSize).subscribe({
+      next: (res: any) => {
+        console.log('API:', res);
+
+        //  IMPORTANT (match backend)
+        const total = res.totalCount ?? res.total ?? 0;
+
+        this.students.set(res.data ?? []);
+        this.totalRecords.set(total);
+
+        const totalPages = Math.ceil(total / this.pageSize);
+        this.totalPages.set(totalPages);
+
+        // create page numbers
+        this.pages = Array.from({ length: totalPages }, (_, i) => i + 1);
       },
-      error: (err) => console.error(err),
+      error: (err) => console.error('Update error:', err),
     });
   }
 
-  // SAVE Student
+  //  SAVE
   saveStudent() {
     if (this.editIndex === null) {
-      //New Student → set date
       this.studentlist.update((s) => ({
         ...s,
         createdDate: new Date(),
       }));
     }
+
     const studentData = { ...this.studentlist() };
 
-    // VALIDATION (DO NOT CHECK ID)
     if (
       !studentData.firstname ||
       !studentData.lastname ||
@@ -76,36 +96,28 @@ export class User implements OnInit {
       !studentData.age ||
       !studentData.course
     ) {
-      alert('Please fill all required fields');
+      alert('Please fill all fields');
       return;
     }
 
     if (this.editIndex === null) {
-      //REMOVE ID for CREATE
       delete (studentData as any).studentId;
 
       this.studentService.createStudent(studentData).subscribe({
-        next: () => {
-          this.getStudents(); // 🔥 reload data
-        },
-        error: (err) => {
-          console.error('Create error:', err);
-        },
+        next: () => this.getStudents(),
+        error: (err) => console.error(err),
       });
     } else {
-      // UPDATE
       this.studentService.updateStudent(studentData.studentId, studentData).subscribe({
         next: () => {
           this.getStudents();
           this.editIndex = null;
         },
-        error: (err) => {
-          console.error('Update error:', err);
-        },
+        error: (err) => console.error(err),
       });
     }
 
-    // RESET FORM
+    // reset form
     this.studentlist.set({
       studentId: 0,
       firstname: '',
@@ -120,7 +132,6 @@ export class User implements OnInit {
   // EDIT
   editStudent(student: Student) {
     this.studentlist.set({ ...student });
-
     this.editIndex = student.studentId;
   }
 
@@ -128,12 +139,9 @@ export class User implements OnInit {
   isDeleting = false;
 
   deleteStudent(id: number) {
-    if (!id || id === 0) {
-      console.error('Invalid ID:', id);
-      return;
-    }
+    if (!id || id === 0) return;
 
-    if (this.isDeleting) return; //prevent double call
+    if (this.isDeleting) return;
 
     this.isDeleting = true;
 
@@ -143,9 +151,29 @@ export class User implements OnInit {
         this.isDeleting = false;
       },
       error: (err) => {
-        console.error('Delete error:', err);
+        console.error(err);
         this.isDeleting = false;
       },
     });
+  }
+
+  //  PAGINATION FUNCTIONS
+  nextPage() {
+    if (this.currentPage() < this.totalPages()) {
+      this.currentPage.set(this.currentPage() + 1);
+      this.getStudents();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage() > 1) {
+      this.currentPage.set(this.currentPage() - 1);
+      this.getStudents();
+    }
+  }
+
+  goToPage(page: number) {
+    this.currentPage.set(page);
+    this.getStudents();
   }
 }

@@ -22,7 +22,7 @@ export class Homepage implements OnInit {
   }
 
   loadCounts() {
-    this.studentService.getStudents().subscribe((res: any[]) => {
+    this.studentService.getStudents(1, 1000).subscribe((res: any[]) => {
       this.totalStudents = res.length;
     });
 

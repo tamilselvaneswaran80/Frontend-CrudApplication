@@ -65,8 +65,11 @@ export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
 
   // Public routes
-  { path: 'login', component: Login },
-  { path: 'signup', component: Signup },
+  {
+    path: 'login',
+    loadComponent: () => import('./login/login').then((m) => m.Login),
+  },
+  { path: 'signup', component: Signup, data: { hideSidebar: false } },
   { path: 'reset-password', component: ResetPassword },
 
   // Protected routes
