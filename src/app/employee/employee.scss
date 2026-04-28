@@ -1,5 +1,5 @@
 .employee-page {
-  padding: 10px;
+  padding: 32px;
   max-width: 1200px;
   margin: 0 auto;
   animation: fadeInUp 0.5s ease-out;
@@ -479,6 +479,56 @@
 
 .animate-fade-in-up {
   animation: fadeInUp 0.5s ease-out;
+}
+
+/* Toggle Switch */
+.page-toggle {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.toggle-track {
+  display: flex;
+  align-items: center;
+  background: #f1f5f9;
+  border-radius: 16px;
+  padding: 4px;
+  position: relative;
+  cursor: pointer;
+  gap: 4px;
+}
+
+.toggle-slider {
+  position: absolute;
+  left: 4px;
+  top: 4px;
+  width: calc(50% - 4px);
+  height: calc(100% - 8px);
+  background: linear-gradient(135deg, #6366f1, #3b82f6);
+  border-radius: 12px;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
+}
+
+.toggle-slider.employee {
+  transform: translateX(100%);
+}
+
+.toggle-label {
+  position: relative;
+  z-index: 1;
+  padding: 10px 24px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  transition: color 0.3s ease;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.toggle-label.active {
+  color: white;
 }
 
 /* Responsive */

@@ -63,7 +63,18 @@
             </svg>
             Course
           </label>
-          <input type="text" class="field-input" [(ngModel)]="student().course" name="course" placeholder="Enter course name">
+         <select class="field-input" [(ngModel)]="student().course"name="course">
+
+    <option value="">Select Course </option>
+    <option value="BCA">BCA</option>  
+    <option value="BSc">BSc</option>
+    <option value="BCom">BCom</option>
+    <option value="BE">BE</option>
+    <option value="MBA">MBA</option>
+    <option value="ME">ME</option>
+    <option value="MCA">MCA</option>
+
+  </select>
         </div>
       </div>
 

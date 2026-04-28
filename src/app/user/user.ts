@@ -27,7 +27,7 @@ export class User implements OnInit {
   totalRecords = signal(0);
   totalPages = signal(0);
   currentPage = signal(1);
-  pageSize = 5;
+  pageSize = 10;
   pages: number[] = [];
 
   //  TOGGLE

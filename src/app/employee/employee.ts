@@ -1,7 +1,7 @@
-import { Component, signal, OnInit } from '@angular/core';
+import { Component, signal, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { Employee } from '../models/employee.model';
 import { EmployeeService } from '../employee.service';
 
@@ -13,21 +13,31 @@ import { EmployeeService } from '../employee.service';
   styleUrl: './employee.scss',
 })
 export class Employees implements OnInit {
-  constructor(private empService: EmployeeService) {}
+  @Input() embedded = false;
+  showUser = signal(false);
 
-  // 🔹 LIVE TIME
+  constructor(
+    private empService: EmployeeService,
+    private router: Router,
+  ) {}
+
+  togglePage() {
+    this.router.navigate(['/users']);
+  }
+
+  //  LIVE TIME
   currentDateTime: Date = new Date();
 
-  // 🔹 LIST
+  //  LIST
   employees = signal<Employee[]>([]);
 
   isDeleting = false;
 
-  // 🔹 PAGINATION
+  //  PAGINATION
   totalRecords = signal(0);
   totalPages = signal(0);
   currentPage = signal(1);
-  pageSize = 5;
+  pageSize = 10;
   pages: number[] = [];
 
   // ================= INIT =================
@@ -45,7 +55,7 @@ export class Employees implements OnInit {
       next: (res: any) => {
         console.log('API:', res);
 
-        // ✅ FIX: use fallback safely
+        //  FIX: use fallback safely
         const total = res.totalCount ?? res.total ?? 0;
 
         this.employees.set(res.data ?? []);

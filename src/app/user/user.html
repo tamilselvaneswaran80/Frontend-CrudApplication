@@ -11,7 +11,7 @@
 
   <!-- Employee Page -->
   <div *ngIf="!showUser()">
-    <app-employee></app-employee>
+    <app-employee [embedded]="true"></app-employee>
   </div>
 
   <!-- Student Page -->
