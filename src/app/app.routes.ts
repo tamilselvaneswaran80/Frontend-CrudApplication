@@ -82,6 +82,14 @@ export const routes: Routes = [
       { path: 'signup-crud', component: SignupCrud },
       { path: 'employee', component: Employees },
       { path: 'employee-search', component: EmployeeSearch },
+      {
+        path: 'student-form',
+        loadComponent: () => import('./student-form/student-form').then((m) => m.StudentForm),
+      },
+      {
+        path: 'employee-form',
+        loadComponent: () => import('./employee-form/employee-form').then((m) => m.EmployeeForm),
+      },
 
       {
         path: 'dashboard',

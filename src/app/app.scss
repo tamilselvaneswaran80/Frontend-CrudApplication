@@ -1,9 +1,29 @@
 .layout {
   display: flex;
+  min-height: 100vh;
 }
 
 .main-content {
   margin-left: 250px;
-  width: 100%;
-  padding: 20px;
+  width: calc(100% - 250px);
+  padding: 24px;
+  height: 100vh;
+  overflow-y: auto;
+  transition: margin-left 0.3s ease, width 0.3s ease;
 }
+
+/* When sidebar is collapsed */
+.main-content:has(+ .sidebar.collapsed) {
+  margin-left: 70px;
+  width: calc(100% - 70px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    width: 100%;
+    padding: 16px;
+  }
+}
+

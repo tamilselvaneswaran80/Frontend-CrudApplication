@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from './models/signupcrud.model';
+import { PagedResult } from './models/paged-result.model';
 import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root',
@@ -22,10 +23,15 @@ export class UserService {
     localStorage.clear();
   }
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.api}/get`);
-  }
+  // getUsers(): Observable<User[]> {
+  //   return this.http.get<User[]>(`${this.api}/get`);
+  // }
 
+  getUsers(pageNumber: number, pageSize: number): Observable<PagedResult<User>> {
+    return this.http.get<PagedResult<User>>(
+      `${this.api}/get?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+    );
+  }
   deleteUser(id: number) {
     return this.http.delete(`${this.api}/delete/${id}`);
   }

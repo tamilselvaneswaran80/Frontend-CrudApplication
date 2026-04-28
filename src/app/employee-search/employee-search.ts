@@ -47,7 +47,22 @@ export class EmployeeSearch {
     this.employee.set(null);
     this.notFound = false;
   }
+
   logoutData() {
     this.router.navigate(['/dashboard']);
+  }
+
+  getAvatarGradient(name: string): string {
+    const colors = [
+      ['#6366f1', '#3b82f6'],
+      ['#8b5cf6', '#6366f1'],
+      ['#ec4899', '#8b5cf6'],
+      ['#f59e0b', '#f97316'],
+      ['#10b981', '#06b6d4'],
+      ['#ef4444', '#f97316'],
+    ];
+    const seed = name ? name.charCodeAt(0) : 0;
+    const pair = colors[seed % colors.length];
+    return `linear-gradient(135deg, ${pair[0]}, ${pair[1]})`;
   }
 }

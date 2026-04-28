@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { StudentService } from '../student.service';
 import { EmployeeService } from '../employee.service';
 
 @Component({
   selector: 'app-homepage',
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './homepage.html',
   styleUrl: './homepage.scss',
 })

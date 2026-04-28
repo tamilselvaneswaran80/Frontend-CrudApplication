@@ -4,7 +4,7 @@ import { UserService } from '../user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { AuthService } from '.././auth.service';
 import { NgxPermissionsService } from 'ngx-permissions';
 @Component({
   selector: 'app-login',

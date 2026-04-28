@@ -1,86 +1,118 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-<div class="container d-flex justify-content-center align-items-center vh-100" >
+<div class="auth-page">
+  <div class="auth-decoration auth-decoration-1"></div>
+  <div class="auth-decoration auth-decoration-2"></div>
 
-  <div class="card p-4 shadow" style="width: 400px;" >
+  <div class="auth-card animate-fade-in-up">
+    <div class="auth-card-header">
+      <div class="auth-logo">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+          <polyline points="2 17 12 22 22 17"></polyline>
+          <polyline points="2 12 12 17 22 12"></polyline>
+        </svg>
+      </div>
+      <h2 class="auth-title">Welcome Back</h2>
+      <p class="auth-subtitle">Sign in to your account to continue</p>
+    </div>
 
-    <h3 class="text-center mb-4">Login Page</h3>
-
-    <form #loginForm="ngForm" (ngSubmit)="login()" >
+    <form #loginForm="ngForm" (ngSubmit)="login()" class="auth-form">
 
       <!-- Email -->
       <div class="form-group">
-        <label style="color: rgb(29, 27, 27);">Email</label>
-
+        <label class="form-label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          Email Address
+        </label>
         <input
           type="email"
-          class="form-control"
+          class="form-input"
           name="email"
           [(ngModel)]="loginData.email"
           #email="ngModel"
           required
           email
-          placeholder="Enter email"  style="border-radius: 15px;" >
-
-        <!-- Error Message -->
-        <small class="text-danger" *ngIf="email.invalid && email.touched">
-          Please enter a valid email
-        </small>
-
+          placeholder="name@example.com">
+        <div class="error-message" *ngIf="email.invalid && email.touched">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          Please enter a valid email address
+        </div>
       </div>
 
       <!-- Password -->
       <div class="form-group">
-        <label>Password</label>
-
+        <label class="form-label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          Password
+        </label>
         <input
           type="password"
-          class="form-control"
+          class="form-input"
           name="password"
           [(ngModel)]="loginData.password"
           #password="ngModel"
           required
           minlength="4"
-          placeholder="Enter password"  style="border-radius: 15px; " >
-
-        <small class="text-danger" *ngIf="password.invalid && password.touched">
-          Password is required
-        </small>
-
+          placeholder="Enter your password">
+        <div class="error-message" *ngIf="password.invalid && password.touched">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          Password is required (min 4 characters)
+        </div>
       </div>
 
       <!-- Login Button -->
       <button
         type="submit"
-        class="btn btn-primary btn-block"
-        [disabled]="loginForm.invalid"  style="border-radius: 15px;color: rgb(41, 242, 6);" >
-        Login
+        class="btn-gradient btn-gradient-primary btn-block"
+        [disabled]="loginForm.invalid">
+        <span>Sign In</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+          <polyline points="12 5 19 12 12 19"></polyline>
+        </svg>
       </button>
 
     </form>
 
-    <hr>
+    <div class="auth-divider">
+      <span>or</span>
+    </div>
 
-<button
-type="button"
-class="btn btn-warning text-dark btn-block"
-(click)="goToSignup()"  style="border-radius: 15px;color: rgb(41, 242, 6);" >
-Create Account (Signup)
-</button>
-<br>
-<!-- <button
-  type="button"
-  class="btn btn-success btn-block"
-  (click)="goToSignupCrud()"  style="border-radius: 15px;color: rgb(232, 126, 26);" >
-  Signup User PageCrud
-</button> -->
-<div class="text-right mb-5">
-  <a
-    type="button"
-    class="btn btn-link p-0"
-    routerLink="/reset-password" style="border-radius: 15px;width: 70%;">
-    Forgot Password?
-</a>
-</div>
+    <button
+      type="button"
+      class="btn-gradient btn-gradient-secondary btn-block"
+      (click)="goToSignup()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="8.5" cy="7" r="4"></circle>
+        <line x1="20" y1="8" x2="20" y2="14"></line>
+        <line x1="23" y1="11" x2="17" y2="11"></line>
+      </svg>
+      <span>Create Account</span>
+    </button>
+
+    <div class="auth-footer">
+      <a routerLink="/reset-password" class="forgot-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 4v6h6"></path>
+          <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+        </svg>
+        Forgot Password?
+      </a>
+    </div>
+  </div>
 </div>
 
-</div>

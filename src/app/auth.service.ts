@@ -14,12 +14,6 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
-  //   getRole(): string | null {
-  //     const role = localStorage.getItem('role');
-  //     console.log('Getting Role:', role);
-  //     return role;
-  //   }
-
   getRole(): string | null {
     const role = localStorage.getItem('role');
 

@@ -9,13 +9,13 @@ import { NgxPermissionsModule } from 'ngx-permissions';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    // ✅ Router
+    // Router
     provideRouter(routes),
 
-    // ✅ VERY IMPORTANT (this fixes your error)
+    // VERY IMPORTANT (this fixes your error)
     importProvidersFrom(NgxPermissionsModule.forRoot()),
 
-    // ✅ Interceptor
+    // Interceptor
     provideHttpClient(
       withInterceptors([
         (req, next) => {

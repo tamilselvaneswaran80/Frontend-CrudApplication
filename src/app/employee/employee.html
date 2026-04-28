@@ -1,148 +1,137 @@
+<div class="employee-page">
 
-<div class="container mt-2">
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
-
-<h2 class="mb-4">Employee CRUD</h2>
-
-<!-- 🔹 FORM (Admin only) -->
-<div>
-  <!-- Name -->
-  <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Name</label>
-    <div class="col-sm-6">
-      <input type="text"
-      [(ngModel)]="employeeForm().name"
-      class="form-control">
+  <!-- Header -->
+  <div class="employee-header animate-fade-in-up">
+    <div class="header-content">
+      <div class="header-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+        </svg>
+      </div>
+      <div class="header-text">
+        <h2 class="header-title">Employee Management</h2>
+        <p class="header-subtitle">Manage employee records and organizational data</p>
+      </div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+      </div>
+      <div class="stat-info">
+        <span class="stat-number">{{ totalRecords() }}</span>
+        <span class="stat-label">Total Employees</span>
+      </div>
     </div>
   </div>
 
-  <!-- Role -->
-  <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Role</label>
-    <div class="col-sm-6">
-      <input type="text"
-      [(ngModel)]="employeeForm().role"
-      class="form-control">
+  <!-- Add Button -->
+  <div class="add-action-bar animate-fade-in-up">
+    <a routerLink="/employee-form" class="btn-gradient btn-primary-gradient">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      <span>Add Employee</span>
+    </a>
+  </div>
+
+  <!-- Table Card -->
+  <div class="table-card animate-fade-in-up">
+    <div class="table-responsive" *ngIf="employees().length > 0">
+      <table class="modern-table">
+        <thead>
+          <tr>
+            <th class="col-id">ID</th>
+            <th class="col-name">Name</th>
+            <th class="col-role">Role</th>
+            <th class="col-dept">Department</th>
+            <th class="col-salary">Salary</th>
+            <th class="col-date">Created Date</th>
+            <th class="col-action">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let emp of employees(); let i = index" class="table-row" [style.animation-delay.ms]="i * 60">
+            <td class="col-id">
+              <span class="id-badge">#{{ emp.id }}</span>
+            </td>
+            <td class="col-name">
+              <div class="employee-info">
+                <div class="employee-avatar" [style.background]="getAvatarGradient(emp.name)">
+                  {{ emp.name[0] }}
+                </div>
+                <div class="employee-details">
+                  <span class="employee-name">{{ emp.name }}</span>
+                </div>
+              </div>
+            </td>
+            <td class="col-role">{{ emp.role }}</td>
+            <td class="col-dept">{{ emp.department }}</td>
+            <td class="col-salary">{{ emp.salary | currency:'USD':'symbol':'1.0-0' }}</td>
+            <td class="col-date">{{ emp.createdDate | date:'dd/MM/yyyy hh:mm a' }}</td>
+            <td class="col-action">
+              <div class="action-group">
+                <a class="btn-action btn-edit" [routerLink]="['/employee-form']" [queryParams]="{editId: emp.id}" title="Edit">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                  </svg>
+                </a>
+                <button class="btn-action btn-delete" (click)="deleteEmployee(emp.id); $event.stopPropagation()" title="Delete">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                  </svg>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="employees().length === 0" class="empty-state">
+      <div class="empty-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+      </div>
+      <h3 class="empty-title">No employees found</h3>
+      <p class="empty-text">Start by adding a new employee to the system.</p>
     </div>
   </div>
 
-  <!-- Department -->
-  <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Department</label>
-    <div class="col-sm-6">
-      <input type="text"
-      [(ngModel)]="employeeForm().department"
-      class="form-control">
-    </div>
-  </div>
+  <!-- Pagination -->
+  <div class="pagination-bar" *ngIf="totalPages() > 1">
+    <button class="btn-page btn-prev" (click)="prevPage()" [disabled]="currentPage() === 1">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="15 18 9 12 15 6"></polyline>
+      </svg>
+      Previous
+    </button>
 
-  <!-- Salary -->
-  <div class="form-group row">
-    <label class="col-sm-2 col-form-label">Salary</label>
-    <div class="col-sm-6">
-      <input type="number"
-      [(ngModel)]="employeeForm().salary"
-      class="form-control">
-    </div>
-  </div>
-
-    <div class="form-group row">
-  <label class="col-sm-2 col-form-label">Created Date</label>
-  <div class="col-sm-6 pt-2">
-    <span class="fw-bold text-success">
-      {{ employeeForm().createdDate | date:'dd/MM/yyyy hh:mm a' }}
-    </span>
-  </div>
-</div>
-
-  <!-- Button -->
-  <div class="form-group row">
-    <div class="col-sm-2"></div>
-    <div class="col-sm-6">
-      <button class="btn btn-primary" style="border-radius: 15px;background-color: #3b9c9ee4;" (click)="saveEmployee()">
-        {{ editId === null ? 'Add Employee' : 'Update Employee' }}
+    <div class="page-numbers">
+      <button *ngFor="let p of pages" class="page-btn" [class.active]="p === currentPage()" (click)="goToPage(p)">
+        {{ p }}
       </button>
     </div>
-  </div>
 
-</div>
-
-<hr>
-<div>
-   <button style="background-color: #70c81e; color: rgb(247, 242, 242); border: none; padding: 8px 15px; border-radius: 15px;">
-  📊 Total Employees Record: {{ totalRecords() }}
-</button>
-</div>
-<!-- 🔹 TABLE (ALL USERS CAN SEE) -->
-<table class="table table-bordered mt-3">
-
-  <thead class="thead-dark">
-    <tr>
-      <th style=" color: rgb(228, 25, 167);">ID</th>
-      <th style=" color: rgb(228, 25, 167);">Name</th>
-      <th style=" color: rgb(228, 25, 167);">Role</th>
-      <th style=" color: rgb(228, 25, 167);">Department</th>
-      <th style=" color: rgb(228, 25, 167);">Salary</th>
-      <th style=" color: rgb(228, 25, 167);">createdDate</th>
-      <th style=" color: rgb(228, 25, 167);">Action</th>
-    </tr>
-  </thead>
-
-  <tbody style="background-color: #70c81e;">
-
-    <tr *ngFor="let emp of employees()" >
-
-      <td >{{emp.id}}</td>
-      <td>{{emp.name}}</td>
-      <td>{{emp.role}}</td>
-      <td>{{emp.department}}</td>
-      <td>{{emp.salary}}</td>
-     <td>{{ emp.createdDate | date:'short' }}</td>
-
-      <td>
-
-        <button  class="btn btn-warning btn-sm me-2"
-                (click)="editEmployee(emp)"  style=" color: rgb(24, 15, 4, 0.723);">
-          Edit
-        </button>
-
-        <button  type="button"
-                class="btn btn-danger btn-sm"
-                (click)="deleteEmployee(emp.id); $event.stopPropagation()" style=" color: rgba(24, 15, 4, 0.723);">
-          Delete
-        </button>
-
-      </td>
-
-    </tr>
-
-  </tbody>
-  
-</table>
-<div class="d-flex justify-content-between mt-3">
-
-  <button class="btn btn-primary"
-          (click)="prevPage()"
-          [disabled]="currentPage() === 1">
-    Prev
-  </button>
-
-  <div>
-    <button *ngFor="let p of pages"
-            class="btn"
-            [ngClass]="p === currentPage() ? 'btn-primary' : 'btn-outline-primary'"
-            (click)="goToPage(p)">
-      {{p}}
+    <button class="btn-page btn-next" (click)="nextPage()" [disabled]="currentPage() === totalPages()">
+      Next
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="9 18 15 12 9 6"></polyline>
+      </svg>
     </button>
   </div>
 
-  <button class="btn btn-primary"
-          (click)="nextPage()"
-          [disabled]="currentPage() === totalPages()">
-    Next
-  </button>
-
 </div>
 
-</div>

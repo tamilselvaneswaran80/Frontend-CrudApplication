@@ -20,27 +20,14 @@ export class User implements OnInit {
   showUser = signal(true);
   currentDateTime: Date = new Date();
 
-  //  FORM DATA
-  studentlist = signal<Student>({
-    studentId: 0,
-    firstname: '',
-    lastname: '',
-    phoneNumber: '',
-    age: 0,
-    course: '',
-    createdDate: new Date(),
-  });
-
   //  TABLE DATA
   students = signal<Student[]>([]);
-
-  editIndex: number | null = null;
 
   //  PAGINATION
   totalRecords = signal(0);
   totalPages = signal(0);
   currentPage = signal(1);
-  pageSize = 10;
+  pageSize = 5;
   pages: number[] = [];
 
   //  TOGGLE
@@ -76,63 +63,6 @@ export class User implements OnInit {
       },
       error: (err) => console.error('Update error:', err),
     });
-  }
-
-  //  SAVE
-  saveStudent() {
-    if (this.editIndex === null) {
-      this.studentlist.update((s) => ({
-        ...s,
-        createdDate: new Date(),
-      }));
-    }
-
-    const studentData = { ...this.studentlist() };
-
-    if (
-      !studentData.firstname ||
-      !studentData.lastname ||
-      !studentData.phoneNumber ||
-      !studentData.age ||
-      !studentData.course
-    ) {
-      alert('Please fill all fields');
-      return;
-    }
-
-    if (this.editIndex === null) {
-      delete (studentData as any).studentId;
-
-      this.studentService.createStudent(studentData).subscribe({
-        next: () => this.getStudents(),
-        error: (err) => console.error(err),
-      });
-    } else {
-      this.studentService.updateStudent(studentData.studentId, studentData).subscribe({
-        next: () => {
-          this.getStudents();
-          this.editIndex = null;
-        },
-        error: (err) => console.error(err),
-      });
-    }
-
-    // reset form
-    this.studentlist.set({
-      studentId: 0,
-      firstname: '',
-      lastname: '',
-      phoneNumber: '',
-      age: 0,
-      course: '',
-      createdDate: new Date(),
-    });
-  }
-
-  // EDIT
-  editStudent(student: Student) {
-    this.studentlist.set({ ...student });
-    this.editIndex = student.studentId;
   }
 
   // DELETE
@@ -175,5 +105,19 @@ export class User implements OnInit {
   goToPage(page: number) {
     this.currentPage.set(page);
     this.getStudents();
+  }
+
+  getAvatarGradient(firstName: string, lastName: string): string {
+    const colors = [
+      ['#6366f1', '#3b82f6'],
+      ['#8b5cf6', '#6366f1'],
+      ['#ec4899', '#8b5cf6'],
+      ['#f59e0b', '#f97316'],
+      ['#10b981', '#06b6d4'],
+      ['#ef4444', '#f97316'],
+    ];
+    const seed = (firstName?.charCodeAt(0) || 0) + (lastName?.charCodeAt(0) || 0);
+    const pair = colors[seed % colors.length];
+    return `linear-gradient(135deg, ${pair[0]}, ${pair[1]})`;
   }
 }

@@ -1,65 +1,144 @@
-<div class="container mt-4">
+<div class="container-fluid">
 
-  <!-- Header -->
-  <div class="text-center mb-4">
-    <h2>🚀 Dashboard</h2>
-    <p class="text-muted">System Overview & Quick Access</p>
+  <!-- Hero Header -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1 class="gradient-text animate-fade-in-up">Dashboard</h1>
+      <p class="hero-subtitle animate-fade-in-up" style="animation-delay: 0.1s">
+        System Overview &amp; Quick Access
+      </p>
+    </div>
+    <div class="hero-badge animate-fade-in-up" style="animation-delay: 0.2s">
+      <span class="badge-dot"></span>
+      System Active
+    </div>
   </div>
 
-  <!-- Info Cards -->
-  <div class="row text-center">
-
-    <div class="col-md-4 mb-3">
-      <div class="card shadow p-4">
-        <h5>📊 Reports</h5>
-        <p class="text-muted">View system reports and analytics</p>
-        <button class="btn btn-outline-primary">Open</button>
+  <!-- Stats Cards -->
+  <div class="row g-4 mb-5">
+    <div class="col-lg-3 col-md-6">
+      <div class="stat-card gradient-bg animate-float">
+        <div class="stat-icon">📊</div>
+        <div class="stat-number">12</div>
+        <div class="stat-label">Reports Generated</div>
       </div>
     </div>
-
-    <div class="col-md-4 mb-3">
-      <div class="card shadow p-4">
-        <h5>⚙️ Settings</h5>
-        <p class="text-muted">Manage application settings</p>
-        <button class="btn btn-outline-secondary">Configure</button>
+    <div class="col-lg-3 col-md-6">
+      <div class="stat-card gradient-bg-success animate-float" style="animation-delay: 0.5s">
+        <div class="stat-icon">👥</div>
+        <div class="stat-number">48</div>
+        <div class="stat-label">Total Users</div>
       </div>
     </div>
-
-    <div class="col-md-4 mb-3">
-      <div class="card shadow p-4">
-        <h5>👤 Profile</h5>
-        <p class="text-muted">View and update your profile</p>
-        <button class="btn btn-outline-success">View</button>
+    <div class="col-lg-3 col-md-6">
+      <div class="stat-card gradient-bg-warning animate-float" style="animation-delay: 1s">
+        <div class="stat-icon">⚙️</div>
+        <div class="stat-number">5</div>
+        <div class="stat-label">Settings Configured</div>
       </div>
     </div>
-
+    <div class="col-lg-3 col-md-6">
+      <div class="stat-card gradient-bg-info animate-float" style="animation-delay: 1.5s">
+        <div class="stat-icon">🔔</div>
+        <div class="stat-number">3</div>
+        <div class="stat-label">Notifications</div>
+      </div>
+    </div>
   </div>
 
-  <!-- Activity Section -->
-  <div class="row mt-4">
+  <!-- Action Cards -->
+  <div class="row g-4 mb-5">
+    <div class="col-lg-4">
+      <div class="action-card">
+        <div class="card-header gradient-bg">
+          <span class="card-icon">📈</span>
+        </div>
+        <div class="card-body">
+          <h4>Reports</h4>
+          <p>View system reports and analytics</p>
+          <button class="btn-card">Open Reports</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="action-card">
+        <div class="card-header gradient-bg-success">
+          <span class="card-icon">⚙️</span>
+        </div>
+        <div class="card-body">
+          <h4>Settings</h4>
+          <p>Manage application settings</p>
+          <button class="btn-card">Configure</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="action-card">
+        <div class="card-header gradient-bg-info">
+          <span class="card-icon">👤</span>
+        </div>
+        <div class="card-body">
+          <h4>Profile</h4>
+          <p>View and update your profile</p>
+          <button class="btn-card">View Profile</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    <div class="col-md-6">
-      <div class="card shadow p-4">
-        <h5>📌 Recent Activity</h5>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">User logged in</li>
-          <li class="list-group-item">Profile updated</li>
-          <li class="list-group-item">Settings changed</li>
+  <!-- Activity & Notifications -->
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div class="list-card">
+        <div class="list-header">
+          <span class="list-icon gradient-text">📌</span>
+          <h4>Recent Activity</h4>
+        </div>
+        <ul class="list-group">
+          <li class="list-item">
+            <span class="item-dot bg-success"></span>
+            <span class="item-text">User logged in</span>
+            <span class="item-time">2 min ago</span>
+          </li>
+          <li class="list-item">
+            <span class="item-dot bg-info"></span>
+            <span class="item-text">Profile updated</span>
+            <span class="item-time">15 min ago</span>
+          </li>
+          <li class="list-item">
+            <span class="item-dot bg-warning"></span>
+            <span class="item-text">Settings changed</span>
+            <span class="item-time">1 hour ago</span>
+          </li>
         </ul>
       </div>
     </div>
-
-    <div class="col-md-6">
-      <div class="card shadow p-4">
-        <h5>📢 Notifications</h5>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">System update available</li>
-          <li class="list-group-item">New message received</li>
-          <li class="list-group-item">Backup completed</li>
+    <div class="col-lg-6">
+      <div class="list-card">
+        <div class="list-header">
+          <span class="list-icon gradient-text">📢</span>
+          <h4>Notifications</h4>
+        </div>
+        <ul class="list-group">
+          <li class="list-item">
+            <span class="item-dot bg-primary"></span>
+            <span class="item-text">System update available</span>
+            <span class="item-time">Just now</span>
+          </li>
+          <li class="list-item">
+            <span class="item-dot bg-success"></span>
+            <span class="item-text">New message received</span>
+            <span class="item-time">5 min ago</span>
+          </li>
+          <li class="list-item">
+            <span class="item-dot bg-info"></span>
+            <span class="item-text">Backup completed</span>
+            <span class="item-time">30 min ago</span>
+          </li>
         </ul>
       </div>
     </div>
-
   </div>
 
 </div>
+

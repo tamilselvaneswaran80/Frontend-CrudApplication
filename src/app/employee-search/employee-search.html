@@ -1,76 +1,141 @@
-
-<div class="container mt-4">
-
-  <h5 class="mb-4">Employee Search</h5>
-
-  <!-- 🔹 Search Box -->
-  <div class="card p-3 shadow-sm mb-3">
-    <div class="form-group row align-items-center">
-    <label  class="col-sm-2 col-form-label fw-bold"style="background-color: #ec0c9a;border-radius: 50px;">Enter Employee ID</label>
-    <div class="col-sm-4">
-      <input type="number"
-             [(ngModel)]="searchId"
-             class="form-control" min="1"
-             placeholder="Enter Employee ID" style="border-radius: 50px;">
+<div class="search-page">
+  <div class="search-card animate-fade-in-up">
+    <div class="search-header">
+      <div class="search-icon">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </div>
+      <div class="search-title-group">
+        <h2 class="search-title">Employee Search</h2>
+        <p class="search-subtitle">Find employee details by entering their ID</p>
+      </div>
     </div>
 
-    <div class="col-sm-2">
-      <button class="btn btn-success w-100" style="border-radius: 50px;" (click)="getEmployeeById()">
-        Get Employee
-      </button>
-    </div>
-    <div class="col-sm-2">
-        <button class="btn btn-secondary w-100" style="border-radius: 50px;" (click)="clearData()">
+    <div class="search-body">
+      <div class="search-input-group">
+        <label class="input-label">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          Employee ID
+        </label>
+        <div class="input-wrapper">
+          <input
+            type="number"
+            class="search-input"
+            [(ngModel)]="searchId"
+            name="searchId"
+            min="1"
+            placeholder="Enter employee ID..."
+            (keyup.enter)="getEmployeeById()">
+          <button class="btn-search" (click)="getEmployeeById()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <span>Search</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="search-actions">
+        <button class="btn-clear" (click)="clearData()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
           Clear
         </button>
       </div>
-       <div class="col-sm-2">
-        <button class="btn btn-primary w-100" style="border-radius: 50px;" (click)="logoutData()">
-           Logout
-        </button>
+    </div>
+
+    <!-- Employee Result Card -->
+    <div *ngIf="employee()" class="result-card animate-fade-in-up">
+      <div class="result-header">
+        <div class="result-avatar" [style.background]="getAvatarGradient(employee()!.name)">
+          {{ employee()!.name[0] }}
+        </div>
+        <div class="result-info">
+          <h3 class="result-name">{{ employee()!.name }}</h3>
+          <span class="result-role">{{ employee()!.role }}</span>
+        </div>
+        <div class="result-badge">
+          <span class="id-tag">ID: {{ employee()!.id }}</span>
+        </div>
       </div>
+
+      <div class="result-details">
+        <div class="detail-item">
+          <div class="detail-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+          </div>
+          <div class="detail-content">
+            <span class="detail-label">Department</span>
+            <span class="detail-value">{{ employee()!.department }}</span>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="1" x2="12" y2="23"></line>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+            </svg>
+          </div>
+          <div class="detail-content">
+            <span class="detail-label">Salary</span>
+            <span class="detail-value">{{ employee()!.salary | currency:'USD':'symbol':'1.0-0' }}</span>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-icon">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
+          <div class="detail-content">
+            <span class="detail-label">Created Date</span>
+            <span class="detail-value">{{ employee()!.createdDate | date:'dd MMM yyyy, hh:mm a' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Not Found State -->
+    <div *ngIf="notFound" class="not-found-card animate-fade-in-up">
+      <div class="not-found-icon">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          <line x1="8" y1="8" x2="14" y2="14"></line>
+          <line x1="14" y1="8" x2="8" y2="14"></line>
+        </svg>
+      </div>
+      <h3 class="not-found-title">Employee Not Found</h3>
+      <p class="not-found-text">No employee exists with ID <strong>{{ searchId }}</strong>. Please check the ID and try again.</p>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="!employee() && !notFound" class="empty-search animate-fade-in-up">
+      <div class="empty-icon">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+      </div>
+      <h3 class="empty-title">Search for an Employee</h3>
+      <p class="empty-text">Enter an employee ID above to view their details.</p>
+    </div>
   </div>
-
-  <hr>
-
-  <!-- 🔹 Result -->
-  <div *ngIf="employee()" class="card shadow-lg p-3 border-0">
-
-    <h4  class="text-success mb-3">Employee Details</h4>
-
-    <table class="table table-bordered table-hover text-center">
-      <tr>
-        <th>ID</th>
-        <td>{{employee()?.id}}</td>
-      </tr>
-      <tr>
-        <th>Name</th>
-        <td>{{employee()?.name}}</td>
-      </tr>
-      <tr>
-        <th>Role</th>
-        <td>{{employee()?.role}}</td>
-      </tr>
-      <tr>
-        <th>Department</th>
-        <td>{{employee()?.department}}</td>
-      </tr>
-      <tr>
-        <th>Salary</th>
-        <td>{{employee()?.salary}}</td>
-      </tr>
-      <tr>
-        <th>CreatedDate</th>
-       <td>{{ employee()?.createdDate | date:'dd-MM-yyyy HH:mm:ss' }}</td>
-      </tr>
-    </table>
-
-  </div>
-
-  <!-- 🔹 No Data -->
-  <div *ngIf="notFound" class="text-danger mt-3 text-center">
-    Employee not found
-  </div>
-
 </div>
-</div>
+

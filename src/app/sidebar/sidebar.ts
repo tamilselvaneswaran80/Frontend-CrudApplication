@@ -18,6 +18,10 @@ export class Sidebar {
     private authService: AuthService,
   ) {}
 
+  toggleSidebar() {
+    this.isCollapsed = !this.isCollapsed;
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['/login']);

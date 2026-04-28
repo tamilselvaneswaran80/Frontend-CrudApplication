@@ -1,13 +1,14 @@
 import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { Employee } from '../models/employee.model';
 import { EmployeeService } from '../employee.service';
 
 @Component({
   selector: 'app-employee',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './employee.html',
   styleUrl: './employee.scss',
 })
@@ -17,27 +18,16 @@ export class Employees implements OnInit {
   // 🔹 LIVE TIME
   currentDateTime: Date = new Date();
 
-  // 🔹 FORM
-  employeeForm = signal<Employee>({
-    id: 0,
-    name: '',
-    role: '',
-    department: '',
-    salary: 0,
-    createdDate: new Date(),
-  });
-
   // 🔹 LIST
   employees = signal<Employee[]>([]);
 
-  editId: number | null = null;
   isDeleting = false;
 
   // 🔹 PAGINATION
   totalRecords = signal(0);
   totalPages = signal(0);
   currentPage = signal(1);
-  pageSize = 10;
+  pageSize = 5;
   pages: number[] = [];
 
   // ================= INIT =================
@@ -68,59 +58,6 @@ export class Employees implements OnInit {
       },
       error: (err) => console.error(err),
     });
-  }
-
-  // ================= SAVE =================
-  saveEmployee() {
-    if (this.editId === null) {
-      this.employeeForm.update((e) => ({
-        ...e,
-        createdDate: new Date(),
-      }));
-    }
-
-    const empData = { ...this.employeeForm() };
-
-    // 🔹 VALIDATION
-    if (!empData.name || !empData.role || !empData.department || empData.salary <= 0) {
-      alert('Please fill all fields');
-      return;
-    }
-
-    if (this.editId === null) {
-      // CREATE
-      delete (empData as any).id;
-
-      this.empService.create(empData).subscribe({
-        next: () => this.getEmployees(),
-        error: (err) => console.error('Create error:', err),
-      });
-    } else {
-      // UPDATE
-      this.empService.update(this.editId, empData).subscribe({
-        next: () => {
-          this.getEmployees();
-          this.editId = null;
-        },
-        error: (err) => console.error('Update error:', err),
-      });
-    }
-
-    // 🔹 RESET FORM
-    this.employeeForm.set({
-      id: 0,
-      name: '',
-      role: '',
-      department: '',
-      salary: 0,
-      createdDate: new Date(),
-    });
-  }
-
-  // ================= EDIT =================
-  editEmployee(emp: Employee) {
-    this.employeeForm.set({ ...emp });
-    this.editId = emp.id;
   }
 
   // ================= DELETE =================
@@ -163,5 +100,19 @@ export class Employees implements OnInit {
       this.currentPage.set(this.currentPage() - 1);
       this.getEmployees();
     }
+  }
+
+  getAvatarGradient(name: string): string {
+    const colors = [
+      ['#6366f1', '#3b82f6'],
+      ['#8b5cf6', '#6366f1'],
+      ['#ec4899', '#8b5cf6'],
+      ['#f59e0b', '#f97316'],
+      ['#10b981', '#06b6d4'],
+      ['#ef4444', '#f97316'],
+    ];
+    const seed = name ? name.charCodeAt(0) : 0;
+    const pair = colors[seed % colors.length];
+    return `linear-gradient(135deg, ${pair[0]}, ${pair[1]})`;
   }
 }
